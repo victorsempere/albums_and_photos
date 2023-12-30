@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  albumsandfotos:
+    image: albumsandfotos
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:8080

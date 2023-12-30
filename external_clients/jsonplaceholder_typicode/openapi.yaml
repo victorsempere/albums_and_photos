@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: jsonplaceholder.typicode.com API
+  version: 1.0.0
+servers:
+  - url: https://jsonplaceholder.typicode.com
+paths:
+  /albums:
+    get:
+      tags:
+        - albums
+      responses:
+        200:
+          description: Albums
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Album"
+              example:
+                - userId: 1
+                  id: 1
+                  title: quidem molestiae enim
+      operationId: getAlbums
+  /photos:
+    get:
+      tags:
+        - photos
+      responses:
+        200:
+          description: Photos
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Photo"
+              example:
+                - albumId: 1
+                  id: 1
+                  title: accusamus beatae ad facilis cum similique qui sunt
+                  url: https://via.placeholder.com/600/92c952
+                  thumbnailUrl: https://via.placeholder.com/150/92c952
+      operationId: getPhotos
+
+components:
+  schemas:
+    Album:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+
+    Photo:
+      type: object
+      properties:
+        albumId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        url:
+          type: string
+        thumbnailUrl:
+          type: string
