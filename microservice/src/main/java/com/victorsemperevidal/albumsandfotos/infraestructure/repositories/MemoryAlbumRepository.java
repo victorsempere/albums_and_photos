@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
-import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
 import com.victorsemperevidal.albumsandfotos.domain.repos.AlbumRepository;
 import com.victorsemperevidal.albumsandfotos.domain.repos.PhotoRepository;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.projections.AlbumAndPhotoProjectionFactory;
+import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.repos.projections.AlbumAndPhotoProjectionFactory;
 
 @Service
 @Qualifier("memoryAlbumRepository")

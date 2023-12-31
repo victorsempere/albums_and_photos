@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
-import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
 import com.victorsemperevidal.albumsandfotos.domain.repos.AlbumRepository;
+import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
 import com.victorsemperevidal.albumsandfotos.infraestructure.daos.AlbumDao;
-import com.victorsemperevidal.albumsandfotos.infraestructure.daos.projections.AlbumAndPhotoProjectionDao;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.AlbumDaoFactory;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.AlbumFactory;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.projections.AlbumAndPhotoProjectionFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.daos.AlbumDaoFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects.AlbumFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.repos.projections.AlbumAndPhotoProjectionFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.projections.AlbumAndPhotoProjectionDao;
 
 @Service
 @Qualifier("databaseAlbumRepository")

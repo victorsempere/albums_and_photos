@@ -1,9 +1,9 @@
-package com.victorsemperevidal.albumsandfotos.application.factories;
+package com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos;
 
 import java.util.List;
 
-import com.victorsemperevidal.albumsandfotos.application.dtos.AlbumPhotosDto;
 import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
+import com.victorsemperevidal.albumsandfotos.infraestructure.dtos.AlbumPhotosDto;
 
 public interface AlbumPhotosDtoFactory {
 

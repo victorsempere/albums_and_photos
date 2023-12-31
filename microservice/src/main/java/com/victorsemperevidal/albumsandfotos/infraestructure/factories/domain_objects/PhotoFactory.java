@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.infraestructure.factories;
+package com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
-import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
+import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
 import com.victorsemperevidal.albumsandfotos.infraestructure.daos.PhotoDao;
 
 @Service

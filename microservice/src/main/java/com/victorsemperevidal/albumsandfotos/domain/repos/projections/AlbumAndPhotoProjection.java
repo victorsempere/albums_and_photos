@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.domain.projections;
+package com.victorsemperevidal.albumsandfotos.domain.repos.projections;
 
 public class AlbumAndPhotoProjection {
     private final Long albumId;

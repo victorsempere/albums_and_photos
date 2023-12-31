@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.application.factories.impl;
+package com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.victorsemperevidal.albumsandfotos.application.dtos.AlbumDto;
-import com.victorsemperevidal.albumsandfotos.application.dtos.AlbumPhotosDto;
-import com.victorsemperevidal.albumsandfotos.application.factories.AlbumDtoFactory;
-import com.victorsemperevidal.albumsandfotos.application.factories.AlbumPhotosDtoFactory;
-import com.victorsemperevidal.albumsandfotos.application.factories.PhotoDtoFactory;
 import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
+import com.victorsemperevidal.albumsandfotos.infraestructure.dtos.AlbumDto;
+import com.victorsemperevidal.albumsandfotos.infraestructure.dtos.AlbumPhotosDto;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.AlbumDtoFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.AlbumPhotosDtoFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.PhotoDtoFactory;
 
 @Service
 public class AlbumPhotosDtoFactoryImpl implements AlbumPhotosDtoFactory {

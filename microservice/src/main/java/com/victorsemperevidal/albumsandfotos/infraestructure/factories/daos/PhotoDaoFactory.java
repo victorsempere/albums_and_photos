@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.infraestructure.factories;
+package com.victorsemperevidal.albumsandfotos.infraestructure.factories.daos;
 
 import java.util.ArrayList;
 import java.util.List;

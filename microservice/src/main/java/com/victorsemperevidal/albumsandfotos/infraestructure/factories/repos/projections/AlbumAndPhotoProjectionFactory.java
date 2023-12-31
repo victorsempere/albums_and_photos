@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.infraestructure.factories.projections;
+package com.victorsemperevidal.albumsandfotos.infraestructure.factories.repos.projections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
 import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumId;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
-import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
-import com.victorsemperevidal.albumsandfotos.infraestructure.daos.projections.AlbumAndPhotoProjectionDao;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.AlbumIdFactory;
+import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects.AlbumIdFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.projections.AlbumAndPhotoProjectionDao;
 
 @Service
 public class AlbumAndPhotoProjectionFactory {

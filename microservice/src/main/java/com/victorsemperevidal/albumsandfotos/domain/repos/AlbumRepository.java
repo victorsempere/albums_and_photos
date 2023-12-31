@@ -3,7 +3,7 @@ package com.victorsemperevidal.albumsandfotos.domain.repos;
 import java.util.List;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
-import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
+import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
 
 public interface AlbumRepository {
     public void deleteAll();

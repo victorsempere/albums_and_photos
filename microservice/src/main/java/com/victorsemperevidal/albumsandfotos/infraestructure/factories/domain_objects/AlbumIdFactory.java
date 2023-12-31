@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.infraestructure.factories;
+package com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects;
 
 import org.springframework.stereotype.Service;
 

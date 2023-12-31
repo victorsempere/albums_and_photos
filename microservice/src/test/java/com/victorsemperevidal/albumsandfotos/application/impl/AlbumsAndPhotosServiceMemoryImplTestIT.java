@@ -19,8 +19,8 @@ import org.springframework.test.context.ActiveProfiles;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victorsemperevidal.albumsandfotos.application.AlbumsAndPhotosService;
-import com.victorsemperevidal.albumsandfotos.application.dtos.AlbumPhotosDto;
 import com.victorsemperevidal.albumsandfotos.domain.exceptions.ExternalClientException;
+import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.AlbumsApi;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.PhotosApi;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.invoker.ApiException;
@@ -79,19 +79,19 @@ class AlbumsAndPhotosServiceMemoryImplTestIT {
                 //
                 // when
                 //
-                List<AlbumPhotosDto> albumsAndPhotos = albumsAndPhotosService.processAlbumsAndPhotos();
+                List<AlbumPhotos> albumsAndPhotos = albumsAndPhotosService.processAlbumsAndPhotos();
 
                 //
                 // then
                 //
-                List<AlbumPhotosDto> expectedResponse = null;
+                List<AlbumPhotos> expectedResponse = null;
                 try {
                         String expected_response_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
                         InputStream expected_response_file_src = getClass().getClassLoader().getResourceAsStream(
                                         expected_response_file);
                         expectedResponse = objectMapper.readValue(
                                         expected_response_file_src,
-                                        new TypeReference<List<AlbumPhotosDto>>() {
+                                        new TypeReference<List<AlbumPhotos>>() {
                                         });
 
                 } catch (Exception e) {
@@ -116,7 +116,7 @@ class AlbumsAndPhotosServiceMemoryImplTestIT {
                 //
                 // when
                 //
-                List<AlbumPhotosDto> albumsAndPhotos = albumsAndPhotosService.processAlbumsAndPhotos();
+                List<AlbumPhotos> albumsAndPhotos = albumsAndPhotosService.processAlbumsAndPhotos();
 
                 //
                 // then

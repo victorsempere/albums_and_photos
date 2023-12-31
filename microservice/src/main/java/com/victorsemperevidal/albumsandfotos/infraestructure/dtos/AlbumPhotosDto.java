@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.application.dtos;
+package com.victorsemperevidal.albumsandfotos.infraestructure.dtos;
 
 import java.io.Serializable;
 import java.util.ArrayList;

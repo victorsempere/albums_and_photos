@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
-import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.AlbumFactory;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.PhotoFactory;
+import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
 
 @Service
 public class AlbumPhotosFactory {

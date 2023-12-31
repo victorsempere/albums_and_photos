@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
 import com.victorsemperevidal.albumsandfotos.domain.repos.PhotoRepository;
 import com.victorsemperevidal.albumsandfotos.infraestructure.daos.PhotoDao;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.PhotoDaoFactory;
-import com.victorsemperevidal.albumsandfotos.infraestructure.factories.PhotoFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.daos.PhotoDaoFactory;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects.PhotoFactory;
 
 @Service
 @Qualifier("databasePhotoRepository")

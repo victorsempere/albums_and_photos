@@ -1,20 +1,18 @@
-package com.victorsemperevidal.albumsandfotos.application.dtos;
+package com.victorsemperevidal.albumsandfotos.infraestructure.dtos;
 
 import java.io.Serializable;
 
-public class AlbumDto implements Serializable {
-    private final Long userId;
+public class PhotoDto implements Serializable {
     private final Long id;
     private final String title;
+    private final String url;
+    private final String thumbnailUrl;
 
-    public AlbumDto(Long userId, Long id, String title) {
-        this.userId = userId;
+    public PhotoDto(Long id, String title, String url, String thumbnailUrl) {
         this.id = id;
         this.title = title;
-    }
-
-    public Long getUserId() {
-        return userId;
+        this.url = url;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public Long getId() {
@@ -23,6 +21,14 @@ public class AlbumDto implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
     @Override
@@ -41,7 +47,7 @@ public class AlbumDto implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AlbumDto other = (AlbumDto) obj;
+        PhotoDto other = (PhotoDto) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -52,7 +58,7 @@ public class AlbumDto implements Serializable {
 
     @Override
     public String toString() {
-        return "AlbumDto [userId=" + userId + ", id=" + id + ", title=" + title + "]";
+        return "PhotoDto [id=" + id + ", title=" + title + ", url=" + url + ", thumbnailUrl=" + thumbnailUrl + "]";
     }
 
 }

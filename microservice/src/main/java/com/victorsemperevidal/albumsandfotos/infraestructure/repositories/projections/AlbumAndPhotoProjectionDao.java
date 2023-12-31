@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.infraestructure.daos.projections;
+package com.victorsemperevidal.albumsandfotos.infraestructure.repositories.projections;
 
 public interface AlbumAndPhotoProjectionDao {
     public Long getAlbumId();

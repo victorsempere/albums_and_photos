@@ -1,10 +1,10 @@
-package com.victorsemperevidal.albumsandfotos.application.factories.impl;
+package com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.victorsemperevidal.albumsandfotos.application.dtos.AlbumDto;
-import com.victorsemperevidal.albumsandfotos.application.factories.AlbumDtoFactory;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
+import com.victorsemperevidal.albumsandfotos.infraestructure.dtos.AlbumDto;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.AlbumDtoFactory;
 
 @Service
 public class AlbumDtoFactoryImpl implements AlbumDtoFactory {

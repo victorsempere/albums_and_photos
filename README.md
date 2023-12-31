@@ -19,11 +19,11 @@ Con esta arquitectura, dejamos en la capa más externa y por lo tanto más aleja
 
 Proyecto Maven, utilizando Java 17 + Spring (Spring-Boot, Spring-Data, Spring-Cache). 
 
-Para la parte de testing utilizo JUnit + Mockito. 
+Para la parte de testing utilizo JUnit + Mockito. Además de utilizar el JaCoCo para validar la cobertura del código (Ejecutar mvn package y se nos generará en target/site una web con los resultados de la cobertura)
 
 También utilizo OpenAPI como ejemplo de definición de un servicio de la capa de infraestructura. Para los tests utilizo la librería Jackson que viene en el framework de Spring, para poder leer de disco los ficheros de pruebas. Al utilizar el plugin org.openapitools:openapi-generator-maven-plugin, sonar dará errores y warnings que se irán corrigiendo al actualizar la versión del plugin pero que se nos salen de nuestro control.
 
-También tenemos la opción de utilizar Docker para arrancar el servicio dentro de un contenedor y poder validar el funcionamiento del microservicio con diferentes máquinas virtuales. Nos permite también depurar el artefacto desplegado.
+Tenemos disponibles los fichero Dockerfile, docker-compose.yml y docker-compose-debug.yml para realizar un despliegue en una imagen Docker del microservicio y poder ejecutar/depurar en un entorno aislado.
 
 # Patrones de diseño
 
@@ -37,7 +37,7 @@ Algunos de los patrones de diseño que utilizo en el desarrolo, son:
 
 Vamos a utilizar el principio DDD (Domain Driven Design), para realizar el diseño de la aplicación, sobre la arquitectura hexagonal. Dejando el dominio y la lógico de nuestro negocio, aislado y desacoplado del exterior. La parte de infraestructura que conecta con los datos externos para obtener los álbumes y las fotos, lo he definido utilizando OpenAPI junto con el plugin de maven que genera el cliente Java para el API definida en el fichero openapi.yaml.
 
-Para el desarrollo, opto por la metodología TDD (Test Driven Development), gracias a la cual, tenemos un código que ofrece garantías porque tiene que tener cubiertas las funcionalidades por tests automáticos. consigo que antes de pasar a desarrollar el código tengamos que definir las pruebas que garantizarán que nuestro desarrollo cumple con las especificaciones que se espera y por lo tanto, al desarrollar, tendremos una guía que nos indica si nuestro software cumple lo esperado o no, además de aportar confianza en el software ya que siempre se encontrará validado de forma automática, lo que nos permite iterar en el desarrollo introduciendo mejoras, de forma evolutiva reduciendo el riesgo de introducir errores al evolucionar el sistema.
+Para el desarrollo, opto por la metodología TDD (Test Driven Development), gracias a la cual, tenemos un código que ofrece garantías porque tiene que tener cubiertas las funcionalidades por tests automáticos. consigo que antes de pasar a desarrollar el código tengamos que definir las pruebas que garantizarán que nuestro desarrollo cumple con las especificaciones que se espera y por lo tanto, al desarrollar, tendremos una guía que nos indica si nuestro software cumple lo esperado o no, además de aportar confianza en el software ya que siempre se encontrará validado de forma automática, lo que nos permite iterar en el desarrollo introduciendo mejoras, de forma evolutiva reduciendo el riesgo de introducir errores al evolucionar el sistema. Para validar la cobertura utilizamos
 
 TODO: Hablar de los principios SOLID
 

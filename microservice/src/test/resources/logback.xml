@@ -6,9 +6,9 @@
         </encoder>
     </appender>
 
-    <logger name="org.hibernate" level="DEBUG"/>
-    <logger name="org.hibernate.SQL" level="DEBUG"/>
-    <logger name="org.hibernate.type.descriptor.sql" level="DEBUG"/>
+    <logger name="org.hibernate" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="INFO"/>
+    <logger name="org.hibernate.type.descriptor.sql" level="INFO"/>
     
     <!-- Definición de un FileAppender -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
@@ -19,7 +19,7 @@
     </appender>
 
     <!-- Configuración del nivel de log para todas las categorías -->
-    <root level="info">
+    <root level="INFO">
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>
     </root>
