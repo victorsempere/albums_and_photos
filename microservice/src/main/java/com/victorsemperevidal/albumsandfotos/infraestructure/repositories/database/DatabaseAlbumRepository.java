@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.infraestructure.repositories;
+package com.victorsemperevidal.albumsandfotos.infraestructure.repositories.database;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import com.victorsemperevidal.albumsandfotos.infraestructure.daos.AlbumDao;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.daos.AlbumDaoFactory;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects.AlbumFactory;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.repos.projections.AlbumAndPhotoProjectionFactory;
-import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.projections.AlbumAndPhotoProjectionDao;
+import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.database.projections.AlbumAndPhotoProjectionDao;
 
 @Service
 @Qualifier("databaseAlbumRepository")

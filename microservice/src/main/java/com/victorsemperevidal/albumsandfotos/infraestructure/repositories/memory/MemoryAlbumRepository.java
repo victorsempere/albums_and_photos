@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandfotos.infraestructure.repositories;
+package com.victorsemperevidal.albumsandfotos.infraestructure.repositories.memory;
 
 import java.util.List;
 

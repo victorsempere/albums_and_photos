@@ -14,7 +14,7 @@ import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumId;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
 import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects.AlbumIdFactory;
-import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.projections.AlbumAndPhotoProjectionDao;
+import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.database.projections.AlbumAndPhotoProjectionDao;
 
 @Service
 public class AlbumAndPhotoProjectionFactory {
