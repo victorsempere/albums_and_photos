@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
+import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
 import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.AlbumFactory;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.PhotoFactory;
@@ -31,15 +32,26 @@ public class AlbumPhotosFactory {
         }
 
         AlbumPhotos lastAlbum = null;
-        List<AlbumPhotos> albumsPhotos = new ArrayList<>();
+        List<AlbumPhotos> listOfAlbumsWithPhotos = new ArrayList<>();
         for (AlbumAndPhotoProjection albumProjection : albumsAndPhotosProjections) {
-            if (isDifferentAlbum(lastAlbum, albumProjection)) {
-                lastAlbum = getInstance(albumProjection);
-                albumsPhotos.add(lastAlbum);
-            }
-            lastAlbum.getPhotos().add(photoFactory.getInstance(albumProjection));
+            lastAlbum = appendProjectionToAlbumPhotos(albumProjection, listOfAlbumsWithPhotos, lastAlbum);
         }
-        return albumsPhotos;
+        return listOfAlbumsWithPhotos;
+    }
+
+    private AlbumPhotos appendProjectionToAlbumPhotos(AlbumAndPhotoProjection albumProjection,
+            List<AlbumPhotos> albumsPhotos, AlbumPhotos lastAlbum) {
+        if (isDifferentAlbum(lastAlbum, albumProjection)) {
+            lastAlbum = getInstance(albumProjection);
+            albumsPhotos.add(lastAlbum);
+        }
+
+        Photo photo = photoFactory.getInstance(albumProjection);
+        if (photo != null) {
+            lastAlbum.getPhotos().add(photo);
+        }
+
+        return lastAlbum;
     }
 
     private boolean isDifferentAlbum(AlbumPhotos lastAlbum, AlbumAndPhotoProjection albumProjection) {

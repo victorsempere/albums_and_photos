@@ -51,8 +51,14 @@ public class PhotoFactory {
     }
 
     public Photo getInstance(AlbumAndPhotoProjection albumProjection) {
-        return new Photo(albumProjection.getAlbumId(), albumProjection.getPhotoId(), albumProjection.getPhotoTitle(),
-                albumProjection.getPhotoUrl(),
-                albumProjection.getPhotoThumbnailUrl());
+        if (albumProjection.getPhotoId() == null) {
+            return null;
+
+        } else {
+            return new Photo(albumProjection.getAlbumId(), albumProjection.getPhotoId(),
+                    albumProjection.getPhotoTitle(),
+                    albumProjection.getPhotoUrl(),
+                    albumProjection.getPhotoThumbnailUrl());
+        }
     }
 }

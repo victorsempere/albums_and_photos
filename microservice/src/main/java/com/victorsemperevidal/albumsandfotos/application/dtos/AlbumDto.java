@@ -50,4 +50,9 @@ public class AlbumDto implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "AlbumDto [userId=" + userId + ", id=" + id + ", title=" + title + "]";
+    }
+
 }

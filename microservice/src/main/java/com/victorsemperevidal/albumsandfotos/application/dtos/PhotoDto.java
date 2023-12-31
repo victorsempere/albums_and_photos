@@ -56,4 +56,9 @@ public class PhotoDto implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "PhotoDto [id=" + id + ", title=" + title + ", url=" + url + ", thumbnailUrl=" + thumbnailUrl + "]";
+    }
+
 }

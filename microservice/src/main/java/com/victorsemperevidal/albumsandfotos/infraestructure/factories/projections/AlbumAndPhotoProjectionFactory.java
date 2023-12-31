@@ -1,6 +1,7 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.factories.projections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,55 +26,88 @@ public class AlbumAndPhotoProjectionFactory {
         this.albumIdFactory = albumIdFactory;
     }
 
-    public List<AlbumAndPhotoProjection> getInstancesFromDaos(List<AlbumAndPhotoProjectionDao> albumsAndPhotosDaos) {
+    public List<AlbumAndPhotoProjection> getInstancesFromListOfDaos(List<AlbumAndPhotoProjectionDao> albumsAndPhotosDaos) {
         List<AlbumAndPhotoProjection> albumsAndPhotos = new ArrayList<>();
         if (albumsAndPhotosDaos != null) {
             for (AlbumAndPhotoProjectionDao dao : albumsAndPhotosDaos) {
-                albumsAndPhotos.add(getInstance(dao));
+                albumsAndPhotos.add(getInstanceFromDao(dao));
             }
         }
         return albumsAndPhotos;
     }
 
-    private AlbumAndPhotoProjection getInstance(AlbumAndPhotoProjectionDao albumAndPhotosDao) {
+    private AlbumAndPhotoProjection getInstanceFromDao(AlbumAndPhotoProjectionDao albumAndPhotosDao) {
         return new AlbumAndPhotoProjection(albumAndPhotosDao.getAlbumId(),
                 albumAndPhotosDao.getUserId(), albumAndPhotosDao.getAlbumTitle(), albumAndPhotosDao.getPhotoId(),
                 albumAndPhotosDao.getPhotoTitle(),
                 albumAndPhotosDao.getPhotoUrl(), albumAndPhotosDao.getPhotoThumbnailUrl());
     }
 
-    public List<AlbumAndPhotoProjection> getInstancesFrom(List<Album> listOfAlbums, List<Photo> listOfPhotos) {
-        Map<AlbumId, Album> albumsPerId = buildMapOfAlbumsPerId(listOfAlbums);
-        return getInstancesFrom(albumsPerId, listOfPhotos);
+    public List<AlbumAndPhotoProjection> getInstancesFromListOfAlbumsAndPhotos(List<Album> listOfAlbums, List<Photo> listOfPhotos) {
+        Map<AlbumId, List<Photo>> photosPerAlbum = buildMapOfPhotosPerAlbum(listOfPhotos);
+        return getInstancesFromListOfAlbumsAndPhotosPerAlbum(listOfAlbums, photosPerAlbum);
     }
 
-    private List<AlbumAndPhotoProjection> getInstancesFrom(Map<AlbumId, Album> albumsPerId, List<Photo> listOfPhotos) {
-        List<AlbumAndPhotoProjection> albumsAndPhotos = new ArrayList<>();
-        if (listOfPhotos != null) {
-            for (Photo photo : listOfPhotos) {
-                AlbumId albumId = albumIdFactory.getInstance(photo);
-                if (albumsPerId.containsKey(albumId)) {
-                    albumsAndPhotos.add(getInstance(albumsPerId.get(albumId), photo));
-                }
-            }
+    private List<AlbumAndPhotoProjection> getInstancesFromListOfAlbumsAndPhotosPerAlbum(List<Album> listOfAlbums,
+            Map<AlbumId, List<Photo>> photosPerAlbum) {
+        if (listOfAlbums == null) {
+            return List.of();
         }
-        return albumsAndPhotos;
+        List<AlbumAndPhotoProjection> projections = new ArrayList<>();
+        for (Album album : listOfAlbums) {
+            AlbumId albumId = albumIdFactory.getInstance(album);
+            List<AlbumAndPhotoProjection> albumPhotos = getInstancesFromAlbumAndPhotos(album,
+                    photosPerAlbum == null ? null : photosPerAlbum.get(albumId));
+            projections.addAll(albumPhotos);
+        }
+        return projections;
+    }
+
+    private List<AlbumAndPhotoProjection> getInstancesFromAlbumAndPhotos(Album album, List<Photo> listOfPhotos) {
+        if (album == null) {
+            return List.of();
+        }
+        if (listOfPhotos == null) {
+            return List.of(getInstance(album));
+
+        } else {
+            List<AlbumAndPhotoProjection> projections = new ArrayList<>();
+            for (Photo photo : listOfPhotos) {
+                projections.add(getInstance(album, photo));
+            }
+            return projections;
+        }
     }
 
     private AlbumAndPhotoProjection getInstance(Album album, Photo photo) {
-        return new AlbumAndPhotoProjection(album.getId(), album.getUserId(), album.getTitle(),
-                photo.getId(), photo.getTitle(), photo.getUrl(), photo.getThumbnailUrl());
+        return new AlbumAndPhotoProjection(album.getId(), album.getUserId(),
+                album.getTitle(), photo == null ? null : photo.getId(), photo == null ? null : photo.getTitle(),
+                photo == null ? null : photo.getUrl(), photo == null ? null : photo.getThumbnailUrl());
     }
 
-    private Map<AlbumId, Album> buildMapOfAlbumsPerId(List<Album> listOfAlbums) {
-        Map<AlbumId, Album> map = new HashMap<>();
-        if (listOfAlbums != null) {
-            for (Album album : listOfAlbums) {
-                AlbumId albumId = albumIdFactory.getInstance(album);
-                map.put(albumId, album);
-            }
+    private AlbumAndPhotoProjection getInstance(Album album) {
+        return getInstance(album, null);
+    }
+
+    private Map<AlbumId, List<Photo>> buildMapOfPhotosPerAlbum(List<Photo> listOfPhotos) {
+        if (listOfPhotos == null) {
+            return Map.of();
         }
-        return map;
+        Map<AlbumId, List<Photo>> mapOfPhotosPerAlbum = new HashMap<>();
+        for (Photo photo : listOfPhotos) {
+            AlbumId albumId = albumIdFactory.getInstance(photo);
+            mapOfPhotosPerAlbum.computeIfAbsent(albumId, this::createAlbumListOfPhotos);
+            mapOfPhotosPerAlbum.merge(albumId, Arrays.asList(photo), this::appendPhotoToAlbum);
+        }
+        return mapOfPhotosPerAlbum;
     }
 
+    private List<Photo> appendPhotoToAlbum(List<Photo> photos, List<Photo> newPhotos) {
+        photos.addAll(newPhotos);
+        return photos;
+    }
+
+    private List<Photo> createAlbumListOfPhotos(AlbumId key) {
+        return new ArrayList<>();
+    }
 }

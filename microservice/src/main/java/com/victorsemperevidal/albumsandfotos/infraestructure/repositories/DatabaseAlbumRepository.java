@@ -54,7 +54,7 @@ public class DatabaseAlbumRepository implements AlbumRepository {
     @Override
     public List<AlbumAndPhotoProjection> getAlbumsAndPhotos() {
         List<AlbumAndPhotoProjectionDao> albumsAndPhotosDaos = springAlbumRepository.getAlbumsAndPhotos();
-        return albumAndPhotoProjectionFactory.getInstancesFromDaos(albumsAndPhotosDaos);
+        return albumAndPhotoProjectionFactory.getInstancesFromListOfDaos(albumsAndPhotosDaos);
     }
 }
 
