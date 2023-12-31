@@ -29,7 +29,7 @@ import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertyp
 
 @SpringBootTest
 @ActiveProfiles("test")
-class AlbumsAndPhotosServiceMemImplTestIT {
+class AlbumsAndPhotosServiceMemoryImplTestIT {
         @Autowired
         private ObjectMapper objectMapper;
 
@@ -42,10 +42,6 @@ class AlbumsAndPhotosServiceMemImplTestIT {
         @MockBean
         private PhotosApi photosApi;
 
-        public AlbumsAndPhotosServiceMemImplTestIT() {
-                super();
-        }
-
         @BeforeEach
         void setUp() {
                 Mockito.reset(albumsApi);
@@ -53,12 +49,12 @@ class AlbumsAndPhotosServiceMemImplTestIT {
         }
 
         @Test
-        void givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
+        void givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
                 //
                 // given
                 //
                 try {
-                        String given_albums_file = "./givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_albums.json";
+                        String given_albums_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_albums.json";
                         InputStream given_albums_file_src = getClass().getClassLoader().getResourceAsStream(
                                         given_albums_file);
                         List<Album> albums = objectMapper.readValue(
@@ -67,7 +63,7 @@ class AlbumsAndPhotosServiceMemImplTestIT {
                                         });
                         Mockito.when(albumsApi.getAlbums()).thenReturn(albums);
 
-                        String given_photos_file = "./givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_photos.json";
+                        String given_photos_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_photos.json";
                         InputStream given_photos_file_src = getClass().getClassLoader().getResourceAsStream(
                                         given_photos_file);
                         List<Photo> photos = objectMapper.readValue(
@@ -90,7 +86,7 @@ class AlbumsAndPhotosServiceMemImplTestIT {
                 //
                 List<AlbumPhotosDto> expectedResponse = null;
                 try {
-                        String expected_response_file = "./givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
+                        String expected_response_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
                         InputStream expected_response_file_src = getClass().getClassLoader().getResourceAsStream(
                                         expected_response_file);
                         expectedResponse = objectMapper.readValue(

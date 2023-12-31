@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -56,30 +57,35 @@ public class DatabaseAlbumRepository implements AlbumRepository {
         List<AlbumAndPhotoProjectionDao> albumsAndPhotosDaos = springAlbumRepository.getAlbumsAndPhotos();
         return albumAndPhotoProjectionFactory.getInstancesFromListOfDaos(albumsAndPhotosDaos);
     }
+
+    @Override
+    public void deleteAll() {
+        springAlbumRepository.deleteAll();
+    }
 }
 
 @Repository
 @RepositoryRestResource(path = "db-albums")
 interface SpringAlbumRepository extends ListCrudRepository<AlbumDao, Long> {
 
-    @Query(value = "SELECT a.id AS albumId, a.userId AS userId, a.title AS albumTitle, p.id AS photoId, p.title AS photoTitle, p.url AS photoUrl, p.thumbnailUrl AS photoThumbnailUrl FROM AlbumDao a JOIN a.photos p ORDER BY a.id, p.id")
-    // @RestResource(exported = false)
+    @Query(value = "SELECT a.id AS albumId, a.userId AS userId, a.title AS albumTitle, p.id AS photoId, p.title AS photoTitle, p.url AS photoUrl, p.thumbnailUrl AS photoThumbnailUrl FROM AlbumDao a LEFT JOIN a.photos p ORDER BY a.id, p.id")
+    @RestResource(exported = false)
     List<AlbumAndPhotoProjectionDao> getAlbumsAndPhotos();
 
     @Override
-    // @RestResource(exported = false)
+    @RestResource(exported = false)
     <S extends AlbumDao> S save(S entity);
 
     @Override
-    // @RestResource(exported = false)
+    @RestResource(exported = false)
     <S extends AlbumDao> List<S> saveAll(Iterable<S> entities);
 
     @Override
-    // @RestResource(exported = false)
+    @RestResource(exported = false)
     void delete(AlbumDao entity);
 
     @Override
-    // @RestResource(exported = false)
+    @RestResource(exported = false)
     void deleteAll();
 
 }

@@ -2,13 +2,11 @@ package com.victorsemperevidal.albumsandfotos.infraestructure.daos;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,8 +22,7 @@ public class AlbumDao {
     @Column(name = "TITLE")
     private String title;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(joinColumns = { @JoinColumn(name = "ALBUM_ID") })
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<PhotoDao> photos;
 
     public AlbumDao() {

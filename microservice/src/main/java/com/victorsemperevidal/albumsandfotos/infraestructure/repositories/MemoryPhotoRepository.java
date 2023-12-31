@@ -28,4 +28,9 @@ public class MemoryPhotoRepository implements PhotoRepository {
     public List<Photo> findAll() {
         return listOfPhotos;
     }
+
+    @Override
+    public void deleteAll() {
+        this.listOfPhotos = null;
+    }
 }

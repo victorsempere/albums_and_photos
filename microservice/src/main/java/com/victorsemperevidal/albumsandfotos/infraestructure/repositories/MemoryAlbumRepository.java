@@ -39,7 +39,14 @@ public class MemoryAlbumRepository implements AlbumRepository {
 
     @Override
     public List<AlbumAndPhotoProjection> getAlbumsAndPhotos() {
-        return albumAndPhotoProjectionFactory.getInstancesFromListOfAlbumsAndPhotos(this.findAll(), this.photoRepository.findAll());
+        return albumAndPhotoProjectionFactory.getInstancesFromListOfAlbumsAndPhotos(this.findAll(),
+                this.photoRepository.findAll());
+    }
+
+    @Override
+    public void deleteAll() {
+        this.photoRepository.deleteAll();
+        this.albums = null;
     }
 
 }

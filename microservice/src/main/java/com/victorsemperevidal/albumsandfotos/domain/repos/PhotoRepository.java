@@ -5,6 +5,9 @@ import java.util.List;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
 
 public interface PhotoRepository {
+    public void deleteAll();
+
     public void saveAll(List<Photo> entities);
+
     public List<Photo> findAll();
 }

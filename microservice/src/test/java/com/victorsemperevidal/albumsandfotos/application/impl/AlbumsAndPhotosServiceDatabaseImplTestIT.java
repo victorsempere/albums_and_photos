@@ -1,24 +1,26 @@
 package com.victorsemperevidal.albumsandfotos.application.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.InputStream;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victorsemperevidal.albumsandfotos.application.AlbumsAndPhotosService;
 import com.victorsemperevidal.albumsandfotos.application.dtos.AlbumPhotosDto;
+import com.victorsemperevidal.albumsandfotos.domain.exceptions.ExternalClientException;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.AlbumsApi;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.PhotosApi;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.invoker.ApiException;
@@ -39,13 +41,19 @@ class AlbumsAndPhotosServiceDatabaseImplTestIT {
     @MockBean
     private PhotosApi photosApi;
 
+    @BeforeEach
+    void setUp() {
+        Mockito.reset(albumsApi);
+        Mockito.reset(photosApi);
+    }
+
     @Test
-    void givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
+    void givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
         //
         // given
         //
         try {
-            String given_albums_file = "./givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_albums.json";
+            String given_albums_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_albums.json";
             InputStream given_albums_file_src = getClass().getClassLoader().getResourceAsStream(
                     given_albums_file);
             List<Album> albums = objectMapper.readValue(
@@ -54,7 +62,7 @@ class AlbumsAndPhotosServiceDatabaseImplTestIT {
                     });
             Mockito.when(albumsApi.getAlbums()).thenReturn(albums);
 
-            String given_photos_file = "./givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_photos.json";
+            String given_photos_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_photos.json";
             InputStream given_photos_file_src = getClass().getClassLoader().getResourceAsStream(
                     given_photos_file);
             List<Photo> photos = objectMapper.readValue(
@@ -77,7 +85,7 @@ class AlbumsAndPhotosServiceDatabaseImplTestIT {
         //
         List<AlbumPhotosDto> expectedResponse = null;
         try {
-            String expected_response_file = "givenResponseFromExternalClient_whenGetAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
+            String expected_response_file = "givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
             InputStream expected_response_file_src = getClass().getClassLoader().getResourceAsStream(
                     expected_response_file);
             expectedResponse = objectMapper.readValue(
@@ -92,15 +100,13 @@ class AlbumsAndPhotosServiceDatabaseImplTestIT {
     }
 
     @Test
-    void given204FromExternalClient_whenGetAlbumsAndPhotos_thenEmptyList() {
+    void given204OrEmptyListFromExternalClient_whenGetAlbumsAndPhotos_thenEmptyList() {
         //
         // given
         //
         try {
-            Mockito.when(albumsApi.getAlbums())
-                    .thenThrow(new ApiException(HttpStatus.NO_CONTENT.value(), "Empty"));
-            Mockito.when(photosApi.getPhotos())
-                    .thenThrow(new ApiException(HttpStatus.NO_CONTENT.value(), "Empty"));
+            Mockito.when(albumsApi.getAlbums()).thenReturn(List.of());
+            Mockito.when(photosApi.getPhotos()).thenReturn(List.of());
 
         } catch (Exception e) {
             fail("Error cargando los datos de prueba", e);
@@ -118,29 +124,35 @@ class AlbumsAndPhotosServiceDatabaseImplTestIT {
     }
 
     @Test
-    void givenEmptyListsFromExternalClient_whenGetAlbumsAndPhotos_thenEmptyList() {
+    void givenAlbumsApiException_whenGetAlbumsAndPhotos_thenExternalClientException() {
         //
         // given
         //
+        int apiErrorCode = 4;
+        String apiErrorMessage = "Error en API externa";
         try {
-            List<Album> albums = List.of();
-            List<Photo> photos = List.of();
-            Mockito.when(albumsApi.getAlbums()).thenReturn(albums);
-            Mockito.when(photosApi.getPhotos()).thenReturn(photos);
+            Mockito.when(albumsApi.getAlbums()).thenThrow(new ApiException(apiErrorCode, apiErrorMessage));
+            Mockito.when(photosApi.getPhotos()).thenReturn(List.of());
 
         } catch (Exception e) {
             fail("Error cargando los datos de prueba", e);
         }
 
-        //
-        // when
-        //
-        List<AlbumPhotosDto> albumsAndPhotos = albumsAndPhotosService.processAlbumsAndPhotos();
+        try {
+            //
+            // when
+            //
+            albumsAndPhotosService.processAlbumsAndPhotos();
 
-        //
-        // then
-        //
-        assertEquals(List.of(), albumsAndPhotos);
+            fail("Esperábamos una excepción del tipo ExternalClientException");
+
+        } catch (ExternalClientException e) {
+            //
+            // then
+            //
+            assertEquals(apiErrorCode, e.getCode());
+            assertTrue(e.getMessage().contains(apiErrorMessage));
+        }
     }
 
 }

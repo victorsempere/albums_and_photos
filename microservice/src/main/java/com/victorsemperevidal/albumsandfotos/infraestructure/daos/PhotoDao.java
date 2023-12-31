@@ -3,37 +3,35 @@ package com.victorsemperevidal.albumsandfotos.infraestructure.daos;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "PHOTO")
 public class PhotoDao {
-    @Column(name = "ALBUM_ID", nullable = false)
-    public Long albumId;
-
     @Id
     @Column(name = "ID")
-    public Long id;
+    private Long id;
 
     @Column(name = "TITLE")
-    public String title;
+    private String title;
 
     @Column(name = "URL")
-    public String url;
+    private String url;
 
     @Column(name = "THUMBNAIL_URL")
-    public String thumbnailUrl;
+    private String thumbnailUrl;
+
+    @Column(name = "ALBUM_ID")
+    private Long albumId;
+    
+    @ManyToOne
+    @JoinColumn(name = "album_id", insertable = false, updatable = false)
+    private AlbumDao album;
 
     public PhotoDao() {
         super();
-    }
-
-    public Long getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(Long albumId) {
-        this.albumId = albumId;
     }
 
     public Long getId() {
@@ -66,6 +64,22 @@ public class PhotoDao {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public Long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Long albumId) {
+        this.albumId = albumId;
+    }
+
+    public AlbumDao getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(AlbumDao album) {
+        this.album = album;
     }
 
     @Override

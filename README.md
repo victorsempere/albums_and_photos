@@ -1,8 +1,8 @@
 # Introducción
 
 Microservicio en SpringBoot con 3 endpoints:
-* albums-and-photos/db -> Devuelve la lista de álbumes junto con las fotos que contiene a partir de la información almacenada en base de datos.
-* albums-and-photos/mem -> Devuelve la lista de álbumes junto con las fotos que contiene directamente desde memoria.
+* albums-and-photos/db -> Elimina la información que hubiera en memoria. Realiza una carga de datos de la web. Devuelve la lista de álbumes junto con las fotos que contiene a partir de la información almacenada en base de datos.
+* albums-and-photos/mem -> Elimina la información que hubiera en memoria. Realiza una carga de datos de la web. Devuelve la lista de álbumes junto con las fotos que contiene directamente desde memoria.
 * db-albums -> Devuelve los datos almacenados en la tabla Album de la base de datos H2
 * db-photos -> Devuelve las fotos almacenadas en la tabla Photo de la base de datos H2
 
@@ -21,7 +21,7 @@ Proyecto Maven, utilizando Java 17 + Spring (Spring-Boot, Spring-Data, Spring-Ca
 
 Para la parte de testing utilizo JUnit + Mockito. 
 
-También utilizo OpenAPI como ejemplo de definición de un servicio de la capa de infraestructura. Para los tests utilizo la librería Jackson que viene en el framework de Spring, para poder leer de disco los ficheros de pruebas.
+También utilizo OpenAPI como ejemplo de definición de un servicio de la capa de infraestructura. Para los tests utilizo la librería Jackson que viene en el framework de Spring, para poder leer de disco los ficheros de pruebas. Al utilizar el plugin org.openapitools:openapi-generator-maven-plugin, sonar dará errores y warnings que se irán corrigiendo al actualizar la versión del plugin pero que se nos salen de nuestro control.
 
 También tenemos la opción de utilizar Docker para arrancar el servicio dentro de un contenedor y poder validar el funcionamiento del microservicio con diferentes máquinas virtuales. Nos permite también depurar el artefacto desplegado.
 

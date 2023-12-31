@@ -6,7 +6,11 @@ import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
 import com.victorsemperevidal.albumsandfotos.domain.projections.AlbumAndPhotoProjection;
 
 public interface AlbumRepository {
+    public void deleteAll();
+
     public void saveAll(List<Album> entities);
+
     public List<Album> findAll();
+
     public List<AlbumAndPhotoProjection> getAlbumsAndPhotos();
 }
