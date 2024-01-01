@@ -1,5 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.repositories.database;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class DatabasePhotoRepository implements PhotoRepository {
     }
 
     @Override
-    public void saveAll(List<Photo> photos) {
-        List<PhotoDao> photoDaos = photoDaoFactory.getInstancesFromDomainPhotos(photos);
+    public void saveAll(Collection<Photo> photos) {
+        Collection<PhotoDao> photoDaos = photoDaoFactory.getInstancesFromDomainPhotos(photos);
         this.springPhotoRepository.saveAll(photoDaos);
     }
 

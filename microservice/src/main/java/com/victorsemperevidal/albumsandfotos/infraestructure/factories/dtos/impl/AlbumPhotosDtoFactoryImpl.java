@@ -1,6 +1,7 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class AlbumPhotosDtoFactoryImpl implements AlbumPhotosDtoFactory {
     }
 
     @Override
-    public List<AlbumPhotosDto> getListFromAlbumPhotos(List<AlbumPhotos> albumsPhotos) {
+    public Collection<AlbumPhotosDto> getListFromAlbumPhotos(Collection<AlbumPhotos> albumsPhotos) {
         List<AlbumPhotosDto> dtos = new ArrayList<>();
 
         if (albumsPhotos != null) {

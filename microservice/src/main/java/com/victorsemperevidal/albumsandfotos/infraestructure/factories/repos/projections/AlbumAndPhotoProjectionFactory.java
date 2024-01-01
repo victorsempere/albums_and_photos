@@ -2,6 +2,7 @@ package com.victorsemperevidal.albumsandfotos.infraestructure.factories.repos.pr
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,13 +53,14 @@ public class AlbumAndPhotoProjectionFactory {
                 albumAndPhotosDao.getPhotoUrl(), albumAndPhotosDao.getPhotoThumbnailUrl());
     }
 
-    public List<AlbumAndPhotoProjection> getInstancesFromListOfAlbumsAndPhotos(List<Album> listOfAlbums,
-            List<Photo> listOfPhotos) {
+    public Collection<AlbumAndPhotoProjection> getInstancesFromListOfAlbumsAndPhotos(Collection<Album> listOfAlbums,
+            Collection<Photo> listOfPhotos) {
         Map<AlbumId, List<Photo>> photosPerAlbum = buildMapOfPhotosPerAlbum(listOfPhotos);
         return getInstancesFromListOfAlbumsAndPhotosPerAlbum(listOfAlbums, photosPerAlbum);
     }
 
-    private List<AlbumAndPhotoProjection> getInstancesFromListOfAlbumsAndPhotosPerAlbum(List<Album> listOfAlbums,
+    private Collection<AlbumAndPhotoProjection> getInstancesFromListOfAlbumsAndPhotosPerAlbum(
+            Collection<Album> listOfAlbums,
             Map<AlbumId, List<Photo>> photosPerAlbum) {
         if (listOfAlbums == null) {
             return List.of();
@@ -99,7 +101,7 @@ public class AlbumAndPhotoProjectionFactory {
         return getInstance(album, null);
     }
 
-    private Map<AlbumId, List<Photo>> buildMapOfPhotosPerAlbum(List<Photo> listOfPhotos) {
+    private Map<AlbumId, List<Photo>> buildMapOfPhotosPerAlbum(Collection<Photo> listOfPhotos) {
         if (listOfPhotos == null) {
             return Map.of();
         }

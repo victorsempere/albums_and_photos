@@ -1,13 +1,13 @@
 package com.victorsemperevidal.albumsandfotos.domain.repos;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
 
 public interface PhotoRepository {
     public void deleteAll();
 
-    public void saveAll(List<Photo> entities);
+    public void saveAll(Collection<Photo> entities);
 
-    public List<Photo> findAll();
+    public Collection<Photo> findAll();
 }

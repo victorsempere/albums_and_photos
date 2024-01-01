@@ -1,5 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.repositories.memory;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class MemoryAlbumRepository implements AlbumRepository {
     }
 
     @Override
-    public List<AlbumAndPhotoProjection> getAlbumsAndPhotos() {
+    public Collection<AlbumAndPhotoProjection> getAlbumsAndPhotos() {
         return albumAndPhotoProjectionFactory.getInstancesFromListOfAlbumsAndPhotos(this.findAll(),
                 this.photoRepository.findAll());
     }

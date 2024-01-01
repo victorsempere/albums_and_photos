@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.Duration;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +64,7 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
         //
         // when
         //
-        List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
+        Collection<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
 
         //
         // then
@@ -92,7 +93,7 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
         //
         // when
         //
-        List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
+        Collection<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
 
         //
         // then

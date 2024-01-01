@@ -1,6 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.application.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +33,7 @@ public class AlbumsAndPhotosServiceMemoryImpl implements AlbumsAndPhotosService 
     }
 
     @Override
-    public List<AlbumPhotos> processAlbumsAndPhotos() {
+    public Collection<AlbumPhotos> processAlbumsAndPhotos() {
         ExternalData externalData = externalDataService.fetchExternalData();
         this.populateService.populate(externalData);
         return this.processAlbumsService.processAlbumsAndPhotos();

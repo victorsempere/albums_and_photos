@@ -1,6 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.services;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,8 +28,8 @@ public class ProcessAlbumsServiceFromMemory implements ProcessAlbumsService {
     }
 
     @Override
-    public List<AlbumPhotos> processAlbumsAndPhotos() {
-        List<AlbumAndPhotoProjection> albumsAndPhotosProjections = albumRepository.getAlbumsAndPhotos();
+    public Collection<AlbumPhotos> processAlbumsAndPhotos() {
+        Collection<AlbumAndPhotoProjection> albumsAndPhotosProjections = albumRepository.getAlbumsAndPhotos();
         return albumPhotosFactory.getListOfAlbumPhotosFromProjections(albumsAndPhotosProjections);
     }
 

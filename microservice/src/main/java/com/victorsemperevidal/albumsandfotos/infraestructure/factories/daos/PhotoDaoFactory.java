@@ -1,6 +1,7 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.factories.daos;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,13 +9,18 @@ import org.springframework.stereotype.Service;
 import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
 import com.victorsemperevidal.albumsandfotos.infraestructure.daos.PhotoDao;
 
+/**
+ * TODO: Crear interface para que esta factoría la implemente
+ * Para poder después tener varias implementaciones de la factoría y poder
+ * cambiar el tipo de datos que se utiliza por debajo, por ejemplo, List o Set
+ */
 @Service
 public class PhotoDaoFactory {
     public PhotoDaoFactory() {
         super();
     }
 
-    public List<PhotoDao> getInstancesFromDomainPhotos(List<Photo> listOfPhotos) {
+    public Collection<PhotoDao> getInstancesFromDomainPhotos(Collection<Photo> listOfPhotos) {
         if (listOfPhotos == null) {
             return List.of();
         }

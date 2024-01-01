@@ -1,6 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.controllers;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,13 +29,13 @@ public class AlbumsAndFotosController {
     }
 
     @GetMapping("/albums-and-photos/db")
-    public List<AlbumPhotosDto> processAlbumsAndPhotosIntoDatabase() {
+    public Collection<AlbumPhotosDto> processAlbumsAndPhotosIntoDatabase() {
         return albumPhotosDtoFactory
                 .getListFromAlbumPhotos(this.albumsAndPhotosServiceInDatabase.processAlbumsAndPhotos());
     }
 
     @GetMapping("/albums-and-photos/mem")
-    public List<AlbumPhotosDto> processAlbumsAndPhotosIntoMemory() {
+    public Collection<AlbumPhotosDto> processAlbumsAndPhotosIntoMemory() {
         return albumPhotosDtoFactory
                 .getListFromAlbumPhotos(this.albumsAndPhotosServiceInMemory.processAlbumsAndPhotos());
     }

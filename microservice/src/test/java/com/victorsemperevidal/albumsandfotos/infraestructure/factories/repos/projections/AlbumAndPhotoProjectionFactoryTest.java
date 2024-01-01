@@ -3,6 +3,7 @@ package com.victorsemperevidal.albumsandfotos.infraestructure.factories.repos.pr
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,8 @@ public class AlbumAndPhotoProjectionFactoryTest {
         //
         // then
         //
-        List<AlbumAndPhotoProjection> domainProjection = toTest.getInstancesFromListOfAlbumsAndPhotos(listOfAlbums,
+        Collection<AlbumAndPhotoProjection> domainProjection = toTest.getInstancesFromListOfAlbumsAndPhotos(
+                listOfAlbums,
                 listOfPhotos);
 
         //
@@ -71,10 +73,5 @@ public class AlbumAndPhotoProjectionFactoryTest {
             fail("Error cargando datos expected", e);
         }
         assertEquals(expectedDomainAlbumAndPhotosProjection, domainProjection);
-    }
-
-    @Test
-    void testGetInstancesFromListOfDaos() {
-
     }
 }

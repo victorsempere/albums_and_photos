@@ -1,5 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.repositories.memory;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,12 @@ public class MemoryPhotoRepository implements PhotoRepository {
     }
 
     @Override
-    public void saveAll(List<Photo> entities) {
+    public void saveAll(Collection<Photo> entities) {
         listOfPhotos = entities == null ? null : List.copyOf(entities);
     }
 
     @Override
-    public List<Photo> findAll() {
+    public Collection<Photo> findAll() {
         return listOfPhotos;
     }
 

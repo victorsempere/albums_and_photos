@@ -1,6 +1,7 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class AlbumPhotosFactory {
         this.photoFactory = photoFactory;
     }
 
-    public List<AlbumPhotos> getListOfAlbumPhotosFromProjections(
-            List<AlbumAndPhotoProjection> albumsAndPhotosProjections) {
+    public Collection<AlbumPhotos> getListOfAlbumPhotosFromProjections(
+            Collection<AlbumAndPhotoProjection> albumsAndPhotosProjections) {
         if (albumsAndPhotosProjections == null) {
             return List.of();
         }

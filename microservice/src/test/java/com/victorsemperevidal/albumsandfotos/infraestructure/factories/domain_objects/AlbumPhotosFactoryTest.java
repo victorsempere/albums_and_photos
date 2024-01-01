@@ -3,6 +3,7 @@ package com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_o
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,7 @@ public class AlbumPhotosFactoryTest {
         //
         // when
         //
-        List<AlbumPhotos> albumPhotos = toTest.getListOfAlbumPhotosFromProjections(givenProjections);
+        Collection<AlbumPhotos> albumPhotos = toTest.getListOfAlbumPhotosFromProjections(givenProjections);
 
         //
         // then

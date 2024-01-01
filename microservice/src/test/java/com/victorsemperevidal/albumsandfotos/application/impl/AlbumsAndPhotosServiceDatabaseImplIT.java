@@ -2,7 +2,7 @@ package com.victorsemperevidal.albumsandfotos.application.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class AlbumsAndPhotosServiceDatabaseImplIT {
         //
         // when
         //
-        List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
+        Collection<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
 
         //
         // then
