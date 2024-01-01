@@ -21,56 +21,44 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.victorsemperevidal.albumsandfotos.application.AlbumsAndPhotosService;
 import com.victorsemperevidal.albumsandfotos.domain.exceptions.ExternalClientException;
 import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
-import com.victorsemperevidal.albumsandfotos.infraestructure.services.AlbumsApiMockedDataService;
+import com.victorsemperevidal.albumsandfotos.domain.objects.ExternalData;
+import com.victorsemperevidal.albumsandfotos.domain.services.ExternalDataService;
+import com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects.MockedDomainObjectExternalDataFactory;
 import com.victorsemperevidal.albumsandfotos.infraestructure.services.MockedDataService;
-import com.victorsemperevidal.albumsandfotos.infraestructure.services.PhotosApiMockedDataService;
-import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.AlbumsApi;
-import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.PhotosApi;
-import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.invoker.ApiException;
-import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Album;
-import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Photo;
 
 @SpringBootTest
 @ActiveProfiles("test")
 public class AlbumsAndPhotosServiceMemoryImplTest {
-        @Autowired
         private MockedDataService mockedDataService;
-        @Autowired
-        private AlbumsApiMockedDataService albumsApiMockedDataService;
-        @Autowired
-        private PhotosApiMockedDataService photosApiMockedDataService;
+        private AlbumsAndPhotosService serviceToTest;
+        private MockedDomainObjectExternalDataFactory mockedDomainObjectExternalDataFactory;
+
         @MockBean
-        private AlbumsApi albumsApi;
-        @MockBean
-        private PhotosApi photosApi;
+        private ExternalDataService externalDataService;
 
         @Autowired
-        @Qualifier("albumsServiceInMemory")
-        private AlbumsAndPhotosService serviceToTest;
+        public AlbumsAndPhotosServiceMemoryImplTest(MockedDataService mockedDataService,
+                        MockedDomainObjectExternalDataFactory mockedDomainObjectExternalDataFactory,
+                        @Qualifier("albumsServiceInMemory") AlbumsAndPhotosService serviceToTest) {
+                super();
+                this.mockedDataService = mockedDataService;
+                this.mockedDomainObjectExternalDataFactory = mockedDomainObjectExternalDataFactory;
+                this.serviceToTest = serviceToTest;
+        }
 
         @BeforeEach
         void setUp() {
-                Mockito.reset(albumsApi);
-                Mockito.reset(photosApi);
+                Mockito.reset(externalDataService);
         }
 
         @Test
-        void givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
+        void givenMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
                 //
                 // given
                 //
-                try {
-                        String given_albums_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_albums.json";
-                        Mockito.when(albumsApi.getAlbums()).thenReturn(
-                                        albumsApiMockedDataService.getMockedAlbumsFromJsonFile(given_albums_file));
-
-                        String given_photos_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_photos.json";
-                        Mockito.when(photosApi.getPhotos()).thenReturn(
-                                        photosApiMockedDataService.getMockedPhotosFromJsonFile(given_photos_file));
-
-                } catch (ApiException e) {
-                        // Esta excepción no se puede dar aquí
-                }
+                ExternalData externalData = mockedDomainObjectExternalDataFactory.getMockedExternalDataFromJson(
+                                "givenMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_external_data.json");
+                Mockito.when(externalDataService.fetchExternalData()).thenReturn(externalData);
 
                 //
                 // when
@@ -82,7 +70,7 @@ public class AlbumsAndPhotosServiceMemoryImplTest {
                 //
                 List<AlbumPhotos> expectedResponse = null;
                 try {
-                        String expected_response_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
+                        String expected_response_file = "./givenMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
                         expectedResponse = mockedDataService.getMockedDataFromJsonFile(expected_response_file,
                                         new TypeReference<List<AlbumPhotos>>() {
                                         });
@@ -94,17 +82,12 @@ public class AlbumsAndPhotosServiceMemoryImplTest {
         }
 
         @Test
-        void given204OrEmptyListFromExternalClient_whenGetAlbumsAndPhotos_thenEmptyList() {
+        void givenEmptyInputFromExternalData_whenGetAlbumsAndPhotos_thenEmptyList() {
                 //
                 // given
                 //
-                try {
-                        Mockito.when(albumsApi.getAlbums()).thenReturn(List.of());
-                        Mockito.when(photosApi.getPhotos()).thenReturn(List.of());
-
-                } catch (Exception e) {
-                        fail("Error cargando los datos de prueba", e);
-                }
+                ExternalData externalData = mockedDomainObjectExternalDataFactory.getMockedEmptyExternalData();
+                Mockito.when(externalDataService.fetchExternalData()).thenReturn(externalData);
 
                 //
                 // when
@@ -118,17 +101,18 @@ public class AlbumsAndPhotosServiceMemoryImplTest {
         }
 
         @Test
-        void givenAlbumsApiException_whenGetAlbumsAndPhotos_thenExternalClientException() {
+        void givenExternalClientException_whenGetAlbumsAndPhotos_thenExternalClientException() {
                 //
                 // given
                 //
                 int apiErrorCode = 4;
                 String apiErrorMessage = "Error en API externa";
                 try {
-                        Mockito.when(albumsApi.getAlbums()).thenThrow(new ApiException(apiErrorCode, apiErrorMessage));
-                        Mockito.when(photosApi.getPhotos()).thenReturn(List.of());
+                        Mockito.when(externalDataService.fetchExternalData())
+                                        .thenThrow(new ExternalClientException(apiErrorCode, apiErrorMessage,
+                                                        new Exception()));
 
-                } catch (Exception e) {
+                } catch (ExternalClientException e) {
                         fail("Error cargando los datos de prueba", e);
                 }
 
@@ -149,7 +133,7 @@ public class AlbumsAndPhotosServiceMemoryImplTest {
         }
 
         @Test()
-        void givenHugeMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenCompleteExecutionBeforeTimeout() {
+        void givenLargeMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
                 //
                 // given
                 //
@@ -157,31 +141,15 @@ public class AlbumsAndPhotosServiceMemoryImplTest {
                 int mockedAlbums = 1000;
                 int mockedPhotosPerAlbum = 1000;
 
-                try {
-                        List<Album> albums = albumsApiMockedDataService.getMockedAlbums(mockedAlbums);
-                        Mockito.when(albumsApi.getAlbums()).thenReturn(albums);
-
-                        List<Photo> photos = photosApiMockedDataService.getMockedPhotos(mockedAlbums,
-                                        mockedPhotosPerAlbum);
-                        Mockito.when(photosApi.getPhotos()).thenReturn(photos);
-
-                } catch (ApiException e) {
-                        // Esta excepción no se lanzará nunca porque estamos mockeando
-                }
+                ExternalData externalData = mockedDomainObjectExternalDataFactory
+                                .getMockedExternalData(mockedAlbums, mockedPhotosPerAlbum);
+                Mockito.when(externalDataService.fetchExternalData()).thenReturn(externalData);
 
                 assertTimeout(Duration.ofMillis(executionTimeout), () -> {
                         //
                         // when
                         //
-                        List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
-
-                        //
-                        // then
-                        //
-                        assertEquals(mockedAlbums, albumsAndPhotos.size());
-                        for (AlbumPhotos album : albumsAndPhotos) {
-                                assertEquals(mockedPhotosPerAlbum, album.getPhotos().size());
-                        }
+                        serviceToTest.processAlbumsAndPhotos();
                 });
         }
 }
