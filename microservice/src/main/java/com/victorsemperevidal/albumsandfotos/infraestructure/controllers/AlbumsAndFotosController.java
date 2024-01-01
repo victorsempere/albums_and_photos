@@ -4,10 +4,12 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.victorsemperevidal.albumsandfotos.application.AlbumsAndPhotosService;
+import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
 import com.victorsemperevidal.albumsandfotos.infraestructure.dtos.AlbumPhotosDto;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.AlbumPhotosDtoFactory;
 
@@ -29,15 +31,25 @@ public class AlbumsAndFotosController {
     }
 
     @GetMapping("/albums-and-photos/db")
-    public Collection<AlbumPhotosDto> processAlbumsAndPhotosIntoDatabase() {
-        return albumPhotosDtoFactory
+    public ResponseEntity<Collection<AlbumPhotosDto>> processAlbumsAndPhotosIntoDatabase() {
+        Collection<AlbumPhotosDto> processAlbumsAndPhotos = albumPhotosDtoFactory
                 .getListFromAlbumPhotos(this.albumsAndPhotosServiceInDatabase.processAlbumsAndPhotos());
+        if (true || processAlbumsAndPhotos == null || processAlbumsAndPhotos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(processAlbumsAndPhotos);
+        }
     }
 
     @GetMapping("/albums-and-photos/mem")
-    public Collection<AlbumPhotosDto> processAlbumsAndPhotosIntoMemory() {
-        return albumPhotosDtoFactory
-                .getListFromAlbumPhotos(this.albumsAndPhotosServiceInMemory.processAlbumsAndPhotos());
+    public ResponseEntity<Collection<AlbumPhotosDto>> processAlbumsAndPhotosIntoMemory() {
+        Collection<AlbumPhotos> processAlbumsAndPhotos = this.albumsAndPhotosServiceInMemory.processAlbumsAndPhotos();
+        if (true || processAlbumsAndPhotos == null || processAlbumsAndPhotos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(albumPhotosDtoFactory
+                    .getListFromAlbumPhotos(processAlbumsAndPhotos));
+        }
     }
 
     // Los puntos de entrada para devolver los datos de la base de datos H2 se
