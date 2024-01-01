@@ -25,6 +25,10 @@ También utilizo OpenAPI como ejemplo de definición de un servicio de la capa d
 
 Tenemos disponibles los fichero Dockerfile, docker-compose.yml y docker-compose-debug.yml para realizar un despliegue en una imagen Docker del microservicio y poder ejecutar/depurar en un entorno aislado.
 
+# Paradigmas de programación
+
+Para este desarrollo he utilizado los 3 paradigmas de programación: programación estructurada, programación orientada a objetos y programación funcional.
+
 # Patrones de diseño
 
 Algunos de los patrones de diseño que utilizo en el desarrolo, son:
@@ -37,9 +41,20 @@ Algunos de los patrones de diseño que utilizo en el desarrolo, son:
 
 Vamos a utilizar el principio DDD (Domain Driven Design), para realizar el diseño de la aplicación, sobre la arquitectura hexagonal. Dejando el dominio y la lógico de nuestro negocio, aislado y desacoplado del exterior. La parte de infraestructura que conecta con los datos externos para obtener los álbumes y las fotos, lo he definido utilizando OpenAPI junto con el plugin de maven que genera el cliente Java para el API definida en el fichero openapi.yaml.
 
-Para el desarrollo, opto por la metodología TDD (Test Driven Development), gracias a la cual, tenemos un código que ofrece garantías porque tiene que tener cubiertas las funcionalidades por tests automáticos. consigo que antes de pasar a desarrollar el código tengamos que definir las pruebas que garantizarán que nuestro desarrollo cumple con las especificaciones que se espera y por lo tanto, al desarrollar, tendremos una guía que nos indica si nuestro software cumple lo esperado o no, además de aportar confianza en el software ya que siempre se encontrará validado de forma automática, lo que nos permite iterar en el desarrollo introduciendo mejoras, de forma evolutiva reduciendo el riesgo de introducir errores al evolucionar el sistema. Para validar la cobertura utilizamos
+Para el desarrollo, opto por la metodología TDD (Test Driven Development), gracias a la cual, tenemos un código que ofrece garantías de cumplir las funcionalidades esperadas por el código dado que se desarrollan primero los tests y a partir de ellos se desarrolla el código. No he definido los tests para todos los niveles de la aplicación, desarrollé los tests para la capa de aplicación con los requisitos funcionales a partir del enunciado del ejercicio. Después he añadido más tests, como por ejemplo los tests de carga o tests unitarios.
 
-TODO: Hablar de los principios SOLID
+He tenido en cuenta los principios SOLID a la hora de realizar la implementación:
+S (Single Responsibility Principle):
+
+O (Open-Closed Principle):
+
+L (Liskov Substitution Principle):
+
+I (Interface Segregation Principle):
+
+D (Dependency Inversion Principle):
+
+
 
 # Tipos de datos
 Antes de utilizar alguna implementación de un tipo Lista, validar si implementa la interface RandomAcces. Si no se implementa, el rendimiento puede caer en picado a una complejidad cuadrática. El tipo HashMap también ofrece tiempos constantes para el acceso a los datos aunque no garantiza el orden.
@@ -91,12 +106,7 @@ La configuración de los parámetros de acceso es (ver el fichero application.pr
 * User name: sa
 * Password: {sin contraseña}
 
-## Entorno de pruebas
-# TODO: REVISAR POR QUÉ NO CONECTA
-La consola web de la base de datos H2 que utiliza el microservicio se encuentra disponible en la ruta h2-console. Por ejemplo al ejecutar desde VSCode, acceder a través de: http://localhost:8080/h2-console
+# Pendiente de resolver
 
-La configuración de los parámetros de acceso, son (ver el fichero application-test.properties de la carpeta microservice/src/test/resources):
-* Driver class: org.h2.Driver
-* JDBC URL: jdbc:h2:./target/albums-and-photos-database-tests
-* User name: sa
-* Password: {sin contraseña}
+* Warnings en clases de test por estar marcadas como public. En teoría con JUnit 5 ya no sería necesario marcarlas como public si las clases de Test están en el mismo paquete que la clase a validar. Sin embargo el comando mvn test no ejecuta los tests que tienen visiblidad por defecto. Como dato para buscar la solución. Al mostrar el pom completo con los valores por defecto, veo que se está incluyendo la depedencia con junit:junit versión 4 aunque si muestro el dependency:tree no aparece por ningún lado el artefacto junit:junit.
+* Acceso a la consola web de H2 durante la ejecución de los tests

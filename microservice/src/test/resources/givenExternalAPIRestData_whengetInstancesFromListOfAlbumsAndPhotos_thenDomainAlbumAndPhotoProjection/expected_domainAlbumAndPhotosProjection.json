@@ -1,0 +1,25 @@
+[
+    {
+        "albumId": 1,
+        "userId": 1,
+        "albumTitle": "quidem molestiae enim",
+        "photoId": 1,
+        "photoTitle": "accusamus beatae ad facilis cum similique qui sunt",
+        "photoUrl": "https://via.placeholder.com/600/92c952",
+        "photoThumbnailUrl": "https://via.placeholder.com/150/92c952"
+    },
+    {
+        "albumId": 1,
+        "userId": 1,
+        "albumTitle": "quidem molestiae enim",
+        "photoId": 2,
+        "photoTitle": "reprehenderit est deserunt velit ipsam",
+        "photoUrl": "https://via.placeholder.com/600/771796",
+        "photoThumbnailUrl": "https://via.placeholder.com/150/771796"
+    },
+    {
+        "albumId": 2,
+        "userId": 1,
+        "albumTitle": "sunt qui excepturi placeat culpa"
+    }
+]

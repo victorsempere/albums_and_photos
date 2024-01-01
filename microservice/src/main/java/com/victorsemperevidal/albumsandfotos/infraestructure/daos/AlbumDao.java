@@ -1,6 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.daos;
 
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -8,9 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "ALBUM")
+@Table(name = "ALBUM", uniqueConstraints = { @UniqueConstraint(columnNames = { "id, userId" }) })
 public class AlbumDao {
     @Column(name = "USER_ID")
     private Long userId;
@@ -23,7 +24,7 @@ public class AlbumDao {
     private String title;
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<PhotoDao> photos;
+    private Set<PhotoDao> photos;
 
     public AlbumDao() {
         super();
@@ -53,11 +54,11 @@ public class AlbumDao {
         this.title = title;
     }
 
-    public List<PhotoDao> getPhotos() {
+    public Set<PhotoDao> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<PhotoDao> photos) {
+    public void setPhotos(Set<PhotoDao> photos) {
         this.photos = photos;
     }
 

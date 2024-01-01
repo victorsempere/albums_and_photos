@@ -15,9 +15,7 @@ paths:
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Album"
+                $ref: "#/components/schemas/ListOfAlbums"
               example:
                 - userId: 1
                   id: 1
@@ -33,9 +31,7 @@ paths:
           content:
             "application/json":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Photo"
+                $ref: "#/components/schemas/ListOfPhotos"
               example:
                 - albumId: 1
                   id: 1
@@ -46,6 +42,11 @@ paths:
 
 components:
   schemas:
+    ListOfAlbums:
+      type: array
+      items:
+        $ref: "#/components/schemas/Album"
+
     Album:
       type: object
       properties:
@@ -57,6 +58,11 @@ components:
           format: int64
         title:
           type: string
+
+    ListOfPhotos:
+      type: array
+      items:
+        $ref: "#/components/schemas/Photo"
 
     Photo:
       type: object

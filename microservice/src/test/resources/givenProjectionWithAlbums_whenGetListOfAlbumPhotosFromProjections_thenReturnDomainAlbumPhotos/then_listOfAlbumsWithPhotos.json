@@ -1,0 +1,42 @@
+[
+    {
+        "album": {
+            "userId": 10,
+            "id": 1,
+            "title": "Album 1"
+        },
+        "photos": [
+            {
+                "albumId": 1,
+                "id": 1,
+                "title": "Photo 1",
+                "url": "Photo 1 url",
+                "thumbnailUrl": "Photo 1 thumbnail url"
+            },
+            {
+                "albumId": 1,
+                "id": 2,
+                "title": "Photo 2",
+                "url": "Photo 2 url",
+                "thumbnailUrl": "Photo 2 thumbnail url"
+            }
+        ]
+    },
+    {
+        "album": {
+            "userId": 9,
+            "id": 2,
+            "title": "Album 2"
+        },
+        "photos": [
+            {
+                "albumId": 2,
+                "id": 3,
+                "title": "Photo 3",
+                "url": "Photo 3 url",
+                "thumbnailUrl": "Photo 3 thumbnail url"
+            }
+        ]
+    
+    }
+]

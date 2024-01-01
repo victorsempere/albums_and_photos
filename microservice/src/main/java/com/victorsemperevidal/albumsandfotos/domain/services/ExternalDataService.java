@@ -4,8 +4,8 @@ import com.victorsemperevidal.albumsandfotos.domain.exceptions.ExternalClientExc
 import com.victorsemperevidal.albumsandfotos.domain.objects.ExternalData;
 
 /**
- * Servicio que nos dará la información obtenida de la fuente de datos externa
- * en objetos del dominio
+ * Servicio que conecta con la fuente de datos de álbumes y fotos y nos da la
+ * información completa
  */
 public interface ExternalDataService {
     public ExternalData fetchExternalData() throws ExternalClientException;

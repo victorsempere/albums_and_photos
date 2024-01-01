@@ -1,10 +1,11 @@
 package com.victorsemperevidal.albumsandfotos.application.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.InputStream;
+import java.time.Duration;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +18,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victorsemperevidal.albumsandfotos.application.AlbumsAndPhotosService;
 import com.victorsemperevidal.albumsandfotos.domain.exceptions.ExternalClientException;
 import com.victorsemperevidal.albumsandfotos.domain.objects.AlbumPhotos;
+import com.victorsemperevidal.albumsandfotos.infraestructure.services.AlbumsApiMockedDataService;
+import com.victorsemperevidal.albumsandfotos.infraestructure.services.MockedDataService;
+import com.victorsemperevidal.albumsandfotos.infraestructure.services.PhotosApiMockedDataService;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.AlbumsApi;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.api.PhotosApi;
 import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.invoker.ApiException;
@@ -29,18 +32,21 @@ import com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertyp
 
 @SpringBootTest
 @ActiveProfiles("test")
-class AlbumsAndPhotosServiceMemoryImplTestIT {
+public class AlbumsAndPhotosServiceMemoryImplTest {
         @Autowired
-        private ObjectMapper objectMapper;
-
+        private MockedDataService mockedDataService;
         @Autowired
-        @Qualifier("albumsServiceInMemory")
-        private AlbumsAndPhotosService albumsAndPhotosService;
-
+        private AlbumsApiMockedDataService albumsApiMockedDataService;
+        @Autowired
+        private PhotosApiMockedDataService photosApiMockedDataService;
         @MockBean
         private AlbumsApi albumsApi;
         @MockBean
         private PhotosApi photosApi;
+
+        @Autowired
+        @Qualifier("albumsServiceInMemory")
+        private AlbumsAndPhotosService serviceToTest;
 
         @BeforeEach
         void setUp() {
@@ -55,31 +61,21 @@ class AlbumsAndPhotosServiceMemoryImplTestIT {
                 //
                 try {
                         String given_albums_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_albums.json";
-                        InputStream given_albums_file_src = getClass().getClassLoader().getResourceAsStream(
-                                        given_albums_file);
-                        List<Album> albums = objectMapper.readValue(
-                                        given_albums_file_src,
-                                        new TypeReference<List<Album>>() {
-                                        });
-                        Mockito.when(albumsApi.getAlbums()).thenReturn(albums);
+                        Mockito.when(albumsApi.getAlbums()).thenReturn(
+                                        albumsApiMockedDataService.getMockedAlbumsFromJsonFile(given_albums_file));
 
                         String given_photos_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_photos.json";
-                        InputStream given_photos_file_src = getClass().getClassLoader().getResourceAsStream(
-                                        given_photos_file);
-                        List<Photo> photos = objectMapper.readValue(
-                                        given_photos_file_src,
-                                        new TypeReference<List<Photo>>() {
-                                        });
-                        Mockito.when(photosApi.getPhotos()).thenReturn(photos);
+                        Mockito.when(photosApi.getPhotos()).thenReturn(
+                                        photosApiMockedDataService.getMockedPhotosFromJsonFile(given_photos_file));
 
-                } catch (Exception e) {
-                        fail("Error cargando los datos de prueba", e);
+                } catch (ApiException e) {
+                        // Esta excepción no se puede dar aquí
                 }
 
                 //
                 // when
                 //
-                List<AlbumPhotos> albumsAndPhotos = albumsAndPhotosService.processAlbumsAndPhotos();
+                List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
 
                 //
                 // then
@@ -87,10 +83,7 @@ class AlbumsAndPhotosServiceMemoryImplTestIT {
                 List<AlbumPhotos> expectedResponse = null;
                 try {
                         String expected_response_file = "./givenMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
-                        InputStream expected_response_file_src = getClass().getClassLoader().getResourceAsStream(
-                                        expected_response_file);
-                        expectedResponse = objectMapper.readValue(
-                                        expected_response_file_src,
+                        expectedResponse = mockedDataService.getMockedDataFromJsonFile(expected_response_file,
                                         new TypeReference<List<AlbumPhotos>>() {
                                         });
 
@@ -116,7 +109,7 @@ class AlbumsAndPhotosServiceMemoryImplTestIT {
                 //
                 // when
                 //
-                List<AlbumPhotos> albumsAndPhotos = albumsAndPhotosService.processAlbumsAndPhotos();
+                List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
 
                 //
                 // then
@@ -143,7 +136,7 @@ class AlbumsAndPhotosServiceMemoryImplTestIT {
                 // when
                 //
                 try {
-                        albumsAndPhotosService.processAlbumsAndPhotos();
+                        serviceToTest.processAlbumsAndPhotos();
                         fail("Esperábamos una excepción del tipo ExternalClientException");
 
                 } catch (ExternalClientException e) {
@@ -153,5 +146,42 @@ class AlbumsAndPhotosServiceMemoryImplTestIT {
                         assertEquals(apiErrorCode, e.getCode());
                         assertTrue(e.getMessage().contains(apiErrorMessage));
                 }
+        }
+
+        @Test()
+        void givenHugeMockedResponseFromExternalClient_whenProcessAlbumsAndPhotos_thenCompleteExecutionBeforeTimeout() {
+                //
+                // given
+                //
+                long executionTimeout = 800l;
+                int mockedAlbums = 1000;
+                int mockedPhotosPerAlbum = 1000;
+
+                try {
+                        List<Album> albums = albumsApiMockedDataService.getMockedAlbums(mockedAlbums);
+                        Mockito.when(albumsApi.getAlbums()).thenReturn(albums);
+
+                        List<Photo> photos = photosApiMockedDataService.getMockedPhotos(mockedAlbums,
+                                        mockedPhotosPerAlbum);
+                        Mockito.when(photosApi.getPhotos()).thenReturn(photos);
+
+                } catch (ApiException e) {
+                        // Esta excepción no se lanzará nunca porque estamos mockeando
+                }
+
+                assertTimeout(Duration.ofMillis(executionTimeout), () -> {
+                        //
+                        // when
+                        //
+                        List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
+
+                        //
+                        // then
+                        //
+                        assertEquals(mockedAlbums, albumsAndPhotos.size());
+                        for (AlbumPhotos album : albumsAndPhotos) {
+                                assertEquals(mockedPhotosPerAlbum, album.getPhotos().size());
+                        }
+                });
         }
 }
