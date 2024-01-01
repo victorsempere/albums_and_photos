@@ -44,15 +44,15 @@ Vamos a utilizar el principio DDD (Domain Driven Design), para realizar el dise�
 Para el desarrollo, opto por la metodología TDD (Test Driven Development), gracias a la cual, tenemos un código que ofrece garantías de cumplir las funcionalidades esperadas por el código dado que se desarrollan primero los tests y a partir de ellos se desarrolla el código. No he definido los tests para todos los niveles de la aplicación, desarrollé los tests para la capa de aplicación con los requisitos funcionales a partir del enunciado del ejercicio. Después he añadido más tests, como por ejemplo los tests de carga o tests unitarios.
 
 He tenido en cuenta los principios SOLID a la hora de realizar la implementación:
-S (Single Responsibility Principle):
+S (Single Responsibility Principle): Cada módulo debe tener únicamente a un actor como responsable de sus cambios. En su nivel más bajo afecta a las funciones y clases. Pero si pasamos al nivel de componentes, nos ayuda a organizar las clases en los distintos componentes, ya que las clases que se vean afectadas por el mismo actor, deberían compartir componente. Y si finalmente, pasamos al nivel de arquitectura, nos ayuda a definir los límites de la arquitectura.
 
-O (Open-Closed Principle):
+O (Open-Closed Principle): Este es el motor de la arquitectura de los sistemas. Un sistema debe quedar cerrado para su modificación y abierto para su extensión. El sistema se define a partir de interfaces que pueden tener diferentes implementaciones, que pueden ser utilizadas de forma indistinta. La interface debe quedar cerrada a modificaciones pero se pueden añadir elementos a la interface. 
 
-L (Liskov Substitution Principle):
+L (Liskov Substitution Principle): Este principio aplica a nivel de clases y objetos, e indica que si una clase hereda de otra, deberíamos poder utilizar esa clase como si fuera su padre sin necesidad de conocer sus diferencias. Deberíamos poder ampliar el uso de este concepto al nivel de arquitectura. 
 
-I (Interface Segregation Principle):
+I (Interface Segregation Principle): Este principio nos dice que las interfaces deben contenter únicamente los métodos necesarios, es decir, todas los métodos de una interface deben tener sentido para todas las implementaciones de la interface. Esto garantiza que el sistema esté desacoplado.
 
-D (Dependency Inversion Principle):
+D (Dependency Inversion Principle): Este principio dicta que un sistema debe estar separado en módulos. Que las dependencias entre los módulos siempre deben viajar desde los niveles más altos (framework, bases de datos, ...) hacia los más bajos (dominio, lógica de negocio), pero nunca al revés. Además la comunicación entre los diferentes módulos deben estar definidas a través de interfaces, garantizando así, que no se acoplan.
 
 
 
@@ -110,3 +110,8 @@ La configuración de los parámetros de acceso es (ver el fichero application.pr
 
 * Warnings en clases de test por estar marcadas como public. En teoría con JUnit 5 ya no sería necesario marcarlas como public si las clases de Test están en el mismo paquete que la clase a validar. Sin embargo el comando mvn test no ejecuta los tests que tienen visiblidad por defecto. Como dato para buscar la solución. Al mostrar el pom completo con los valores por defecto, veo que se está incluyendo la depedencia con junit:junit versión 4 aunque si muestro el dependency:tree no aparece por ningún lado el artefacto junit:junit.
 * Acceso a la consola web de H2 durante la ejecución de los tests
+
+# Fuentes de datos
+
+Los principios usados y descritos han sido sacados de los libros de Robert C. Martin (https://en.wikipedia.org/wiki/Robert_C._Martin): Clean Code y Clean Architecture.
+Para tomar las decisiones de los tipos de datos, he utilizado la documentación de Java (https://docs.oracle.com/en/java/javase/17/docs/api).
