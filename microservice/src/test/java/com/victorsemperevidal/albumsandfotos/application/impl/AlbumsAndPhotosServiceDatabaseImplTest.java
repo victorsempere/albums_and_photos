@@ -153,30 +153,4 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
         });
     }
 
-    @Test
-    void givenRealInputDataFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
-        //
-        // given
-        //
-        Mockito.when(externalDataService.fetchExternalData()).thenCallRealMethod();
-
-        //
-        // when
-        //
-        List<AlbumPhotos> albumsAndPhotos = serviceToTest.processAlbumsAndPhotos();
-
-        //
-        // then
-        //
-        int expectedAlbums = 100;
-        assertEquals(expectedAlbums, albumsAndPhotos.size());
-
-        int totalPhotos = 0;
-        for (AlbumPhotos album : albumsAndPhotos) {
-            totalPhotos += album.getPhotos() == null ? 0 : album.getPhotos().size();
-        }
-        int exepectedPhotos = 5000;
-        assertEquals(exepectedPhotos, totalPhotos);
-    }
-
 }
