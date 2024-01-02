@@ -34,7 +34,7 @@ public class AlbumsAndFotosController {
     public ResponseEntity<Collection<AlbumPhotosDto>> processAlbumsAndPhotosIntoDatabase() {
         Collection<AlbumPhotosDto> processAlbumsAndPhotos = albumPhotosDtoFactory
                 .getListFromAlbumPhotos(this.albumsAndPhotosServiceInDatabase.processAlbumsAndPhotos());
-        if (true || processAlbumsAndPhotos == null || processAlbumsAndPhotos.isEmpty()) {
+        if (processAlbumsAndPhotos == null || processAlbumsAndPhotos.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(processAlbumsAndPhotos);
@@ -44,7 +44,7 @@ public class AlbumsAndFotosController {
     @GetMapping("/albums-and-photos/mem")
     public ResponseEntity<Collection<AlbumPhotosDto>> processAlbumsAndPhotosIntoMemory() {
         Collection<AlbumPhotos> processAlbumsAndPhotos = this.albumsAndPhotosServiceInMemory.processAlbumsAndPhotos();
-        if (true || processAlbumsAndPhotos == null || processAlbumsAndPhotos.isEmpty()) {
+        if (processAlbumsAndPhotos == null || processAlbumsAndPhotos.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(albumPhotosDtoFactory
