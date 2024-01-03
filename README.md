@@ -106,8 +106,11 @@ Aunque, en caso de necesidad, el plugin si que nos permite poder ajustar el cód
 Dentro de esta carpeta está la implementación de nuestro microservicio, cumpliendo la funcionalidad que se indica en la introducción.
 
 El microservicio, está estructurado utilizando el principio DDD. A continuación, defino las diferentes capas:
-* Dominio: Es la capa más interna y que con menos frecuencia debería cambiar. Define los modelos de datos con los que se trabaja, interfaces de servicios sobre los que nos apoyamos para ejecutar las funciones esperadas.
+
+* Dominio: Es la capa más interna y que con menos frecuencia debería cambiar. Define los modelos de datos con los que se trabaja, interfaces de servicios sobre los que nos apoyamos para ejecutar las funciones esperadas. Por ejemplo en esta capa para tener en cuenta la L de SOLID he utilizado la interface Collection que nos permitirá en la capa de infraestructura, tener diferentes implementaciones utilizando tipos de datos diferentes en función de las necesidades.
+
 * Aplicación: En esta capa se desarrolla la lógica de negocio a partir de los servicios y objetos del dominio. Los servicios del dominio son interfaces sin implementación. Esta la dejamos para una capa superior de forma que no acoplemos la lógica de negocio, por ejemplo, con el motor de base de datos. Esto nos permite cambiar el motor sin implicaciones graves y minimizando el esfuerzo
+
 * Infraestructura: En esta última capa es donde tenemos las implementaciones de los interfaces del dominio y donde se decide los frameworks a utilizar, el motor de base de datos, conectores que se incluyen para comunicarse con el microservicio, .... Es la capa más externa y la primera a la que llegan los microservicios externos cuando quieren comunicar con nosotros.
 
 Este principio DDD nos permite aplicar los principios SOLID que hacen de nuestro sistema, un sistema fácil de adaptar y evolucionar.
@@ -124,10 +127,16 @@ El siguiente paso siguiendo la filosofía que describe Robert C. Martin del dise
 ## Compilación
 
 Para la compilación del proyecto, bastará con ejecutar desde la carpeta raíz del proyecto, en un terminal, el comando Maven:
+
+```ps1
 mvn install
+```
 
 En caso de querer compilar habilitando el uso de las métricas, el comando sería:
+
+```ps1
 mvn install -Pdev
+```
 
 En el perfil de dev, he dejado unas dependencias adicionales que el proyecto no tendrá en caso de estar compilado para desplegar.
 
@@ -148,26 +157,51 @@ La compilación del proyecto es necesario para que se instale el artefacto del c
 Los pasos para ejecutar el proyecto desde una terminal, son:
 
 1. Abrir un terminal en la raíz del proyecto
-2. Ejecutar el comando: mvn install
-3. Ejecutar el comando: mvn spring-boot:run -pl microservice
+
+2. Ejecutar el comando: 
+
+```ps1 
+mvn install
+```
+
+3. Ejecutar el comando: 
+
+```ps1
+mvn spring-boot:run -pl microservice
+```
 
 ### Docker
 
 Para ejecutar el sistema utilizando Docker:
 
 1. Arrancar el servidor de contenedores
+
 2. Desde VSCode:
+
     1. Hacer clic sobre el fichero docker-compose.yml y seleccionar la opción: Compose Restart
+
 3. Desde Terminal:
+
     1. Desde la carpeta raíz del proyecto
-    2. Si el contenedor está corriendo, ejecutar: docker compose -f "microservice\docker-compose.yml" down
-    3. Una vez que el contenedor está parado, ejecutar: docker compose -f "microservice\docker-compose.yml" up -d --build
+
+    2. Si el contenedor está corriendo, ejecutar: 
+
+```ps1
+docker compose -f "microservice\docker-compose.yml" down
+```
+    3. Una vez que el contenedor está parado, ejecutar:
+
+```ps1
+docker compose -f "microservice\docker-compose.yml" up -d --build
+```
 
 ## Cobertura de código
 
 Para validar la cobertura del código utilizamos el plugin de JaCoCo para Maven. El plugin se ejecuta en la fase de empaquetado por lo que si ejecutamos el comando:
 
-$ mvn package
+```ps1
+mvn package
+```
 
 Al finalizar la tarea, en la carpeta target/site/jacaco encontramos una web con el resultado del análisis del código para validar la cobertura que se ha realizado con los tests. 
 
