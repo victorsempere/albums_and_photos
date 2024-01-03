@@ -8,7 +8,7 @@
             "type": "java",
             "name": "AlbumsAndPhotosApplication",
             "request": "launch",
-            "mainClass": "com.victorsemperevidal.albumsandfotos.AlbumsAndFotosApplication",
+            "mainClass": "com.victorsemperevidal.albumsandfotos.AlbumsAndPhotosApplication",
             "args": "--spring.profiles.active=dev",
             "projectName": "microservice"
         }

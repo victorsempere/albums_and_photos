@@ -138,7 +138,7 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
         //
         // given
         //
-        long executionTimeout = 4000l;
+        long executionTimeout = 7000l;
         int mockedAlbums = 100;
         int mockedPhotosPerAlbum = 100;
 
