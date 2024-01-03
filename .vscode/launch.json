@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "AlbumsAndFotosApplication",
+            "name": "AlbumsAndPhotosApplication",
             "request": "launch",
             "mainClass": "com.victorsemperevidal.albumsandfotos.AlbumsAndFotosApplication",
             "args": "--spring.profiles.active=dev",
