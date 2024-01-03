@@ -22,3 +22,8 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+external_clients/jsonplaceholder_typicode/target/**/*
+microservice/.mvn/**/*
+microservice/mvnw
+microservice/mvnw.cmd
+target/*.mv.db
