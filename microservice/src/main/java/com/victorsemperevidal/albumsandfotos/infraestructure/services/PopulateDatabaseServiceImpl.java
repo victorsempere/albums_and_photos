@@ -27,8 +27,8 @@ public class PopulateDatabaseServiceImpl implements PopulateService {
     @Override
     public void populate(ExternalData externalData) {
         this.albumRepository.deleteAll();
-        this.albumRepository.saveAll(externalData.getAlbums());
         this.photoRepository.deleteAll();
+        this.albumRepository.saveAll(externalData.getAlbums());
         this.photoRepository.saveAll(externalData.getPhotos());
     }
 

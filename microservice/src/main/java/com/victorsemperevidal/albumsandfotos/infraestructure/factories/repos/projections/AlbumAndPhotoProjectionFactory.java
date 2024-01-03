@@ -24,6 +24,9 @@ import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.databa
  * mover la lógica de negocio que manipula estos datos a la capa de aplicación y
  * dejar esa lógica desacoplada. Por lo tanto podremos validar de forma aislada,
  * el procesamiento de la información de la lógica de negocio.,.
+ * 
+ * Como los objetos Album y Photo son inmutables, no tendremos problemas de
+ * concurrencia debido a modificaciones desde diferentes hilos
  */
 @Service
 public class AlbumAndPhotoProjectionFactory {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
+import com.victorsemperevidal.albumsandfotos.domain.objects.Photo;
 import com.victorsemperevidal.albumsandfotos.domain.repos.AlbumRepository;
 import com.victorsemperevidal.albumsandfotos.domain.repos.PhotoRepository;
 import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
@@ -34,14 +35,15 @@ public class MemoryAlbumRepository implements AlbumRepository {
     }
 
     @Override
-    public List<Album> findAll() {
+    public Collection<Album> findAll() {
         return albums;
     }
 
     @Override
     public Collection<AlbumAndPhotoProjection> getAlbumsAndPhotos() {
-        return albumAndPhotoProjectionFactory.getInstancesFromListOfAlbumsAndPhotos(this.findAll(),
-                this.photoRepository.findAll());
+        Collection<Photo> all = this.photoRepository.findAll();
+        return albumAndPhotoProjectionFactory.getInstancesFromListOfAlbumsAndPhotos(albums,
+                all);
     }
 
     @Override
