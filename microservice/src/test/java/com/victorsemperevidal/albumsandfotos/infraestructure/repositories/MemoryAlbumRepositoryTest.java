@@ -1,10 +1,11 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -85,11 +86,11 @@ public class MemoryAlbumRepositoryTest {
     }
 
     @Test
-    void givenListOfAlbumsWhenSaveAllThenInstanceReferenceStored() {
+    void givenListOfAlbumsWhenSaveAllThenInstanceReferenceIsDifferent() {
         //
         // given
         //
-        List<Album> albums = List.of();
+        List<Album> albums = new ArrayList<>();
 
         //
         // when
@@ -100,6 +101,6 @@ public class MemoryAlbumRepositoryTest {
         // then
         //
         List<Album> albumsInService = serviceToTest.findAll();
-        assertSame(albums, albumsInService);
+        assertNotSame(albums, albumsInService);
     }
 }
