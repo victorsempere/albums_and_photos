@@ -52,11 +52,11 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
     }
 
     @Test
-    void givenMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
+    void givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos() {
         //
         // given
         //
-        String givenExternalData = "./givenMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/given_external_data.json";
+        String givenExternalData = "./givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos/given_external_data.json";
         ExternalData externalData = mockedDomainObjectExternalDataFactory
                 .getMockedExternalDataFromJson(givenExternalData);
         Mockito.when(externalDataService.fetchExternalData()).thenReturn(externalData);
@@ -71,7 +71,7 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
         //
         List<AlbumPhotos> expectedResponse = null;
         try {
-            String expectedResponseFile = "givenMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos/expected_response.json";
+            String expectedResponseFile = "givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos/expected_response.json";
             expectedResponse = mockedDataService.getMockedDataFromJsonFile(expectedResponseFile,
                     new TypeReference<List<AlbumPhotos>>() {
                     });
@@ -83,7 +83,7 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
     }
 
     @Test
-    void givenEmptyInputFromExternalData_whenGetAlbumsAndPhotos_thenEmptyList() {
+    void givenEmptyInputFromExternalDataWhenGetAlbumsAndPhotosThenEmptyList() {
         //
         // given
         //
@@ -102,7 +102,7 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
     }
 
     @Test
-    void givenExternalClientException_whenGetAlbumsAndPhotos_thenExternalClientException() {
+    void givenExternalClientExceptionWhenGetAlbumsAndPhotosThenExternalClientException() {
         //
         // given
         //
@@ -134,11 +134,11 @@ public class AlbumsAndPhotosServiceDatabaseImplTest {
     }
 
     @Test()
-    void givenLargeMockedInputFromExternalDataService_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
+    void givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos() {
         //
         // given
         //
-        long executionTimeout = 7000l;
+        long executionTimeout = 4000l;
         int mockedAlbums = 100;
         int mockedPhotosPerAlbum = 100;
 

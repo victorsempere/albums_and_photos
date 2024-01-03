@@ -32,7 +32,7 @@ public class AlbumAndPhotoProjectionFactoryTest {
     }
 
     @Test
-    void givenExternalAPIRestData_whengetInstancesFromListOfAlbumsAndPhotos_thenDomainAlbumAndPhotoProjection() {
+    void givenExternalAPIRestDataWhengetInstancesFromListOfAlbumsAndPhotosThenDomainAlbumAndPhotoProjection() {
         //
         // given
         //
@@ -40,11 +40,11 @@ public class AlbumAndPhotoProjectionFactoryTest {
         List<Photo> listOfPhotos = null;
         try {
             listOfAlbums = mockedDataService.getMockedDataFromJsonFile(
-                    "givenExternalAPIRestData_whengetInstancesFromListOfAlbumsAndPhotos_thenDomainAlbumAndPhotoProjection/given_albums.json",
+                    "givenExternalAPIRestDataWhengetInstancesFromListOfAlbumsAndPhotosThenDomainAlbumAndPhotoProjection/given_albums.json",
                     new TypeReference<List<Album>>() {
                     });
             listOfPhotos = mockedDataService.getMockedDataFromJsonFile(
-                    "givenExternalAPIRestData_whengetInstancesFromListOfAlbumsAndPhotos_thenDomainAlbumAndPhotoProjection/given_photos.json",
+                    "givenExternalAPIRestDataWhengetInstancesFromListOfAlbumsAndPhotosThenDomainAlbumAndPhotoProjection/given_photos.json",
                     new TypeReference<List<Photo>>() {
                     });
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class AlbumAndPhotoProjectionFactoryTest {
         try {
             expectedDomainAlbumAndPhotosProjection = mockedDataService
                     .getMockedDataFromJsonFile(
-                            "givenExternalAPIRestData_whengetInstancesFromListOfAlbumsAndPhotos_thenDomainAlbumAndPhotoProjection/expected_domainAlbumAndPhotosProjection.json",
+                            "givenExternalAPIRestDataWhengetInstancesFromListOfAlbumsAndPhotosThenDomainAlbumAndPhotoProjection/expected_domainAlbumAndPhotosProjection.json",
                             new TypeReference<List<AlbumAndPhotoProjection>>() {
 
                             });

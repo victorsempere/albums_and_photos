@@ -78,6 +78,7 @@ interface SpringAlbumRepository extends ListCrudRepository<AlbumDao, Long> {
 
     @Override
     @RestResource(exported = false)
+    @jakarta.transaction.Transactional
     <S extends AlbumDao> List<S> saveAll(Iterable<S> entities);
 
     @Override

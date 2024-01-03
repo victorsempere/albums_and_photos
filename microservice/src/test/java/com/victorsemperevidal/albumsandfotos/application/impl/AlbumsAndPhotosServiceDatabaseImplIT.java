@@ -26,7 +26,7 @@ public class AlbumsAndPhotosServiceDatabaseImplIT {
     }
 
     @Test
-    void givenRealInputDataFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
+    void givenRealInputDataFromExternalClientWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos() {
         //
         // given
         //

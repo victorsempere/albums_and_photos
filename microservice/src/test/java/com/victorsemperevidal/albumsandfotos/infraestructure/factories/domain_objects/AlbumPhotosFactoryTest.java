@@ -31,14 +31,14 @@ public class AlbumPhotosFactoryTest {
     }
 
     @Test
-    void givenProjectionWithAlbums_whenGetListOfAlbumPhotosFromProjections_thenReturnDomainAlbumPhotos() {
+    void givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos() {
         //
         // given
         //
         List<AlbumAndPhotoProjection> givenProjections = null;
         try {
             givenProjections = mockedDataService.getMockedDataFromJsonFile(
-                    "givenProjectionWithAlbums_whenGetListOfAlbumPhotosFromProjections_thenReturnDomainAlbumPhotos/given_projections.json",
+                    "givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos/given_projections.json",
                     new TypeReference<List<AlbumAndPhotoProjection>>() {
 
                     });
@@ -57,7 +57,7 @@ public class AlbumPhotosFactoryTest {
         List<AlbumPhotos> expectedResponse = null;
         try {
             expectedResponse = mockedDataService.getMockedDataFromJsonFile(
-                    "givenProjectionWithAlbums_whenGetListOfAlbumPhotosFromProjections_thenReturnDomainAlbumPhotos/then_listOfAlbumsWithPhotos.json",
+                    "givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos/then_listOfAlbumsWithPhotos.json",
                     new TypeReference<List<AlbumPhotos>>() {
 
                     });

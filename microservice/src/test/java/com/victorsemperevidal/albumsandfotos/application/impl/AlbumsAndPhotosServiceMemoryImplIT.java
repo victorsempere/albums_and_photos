@@ -26,7 +26,7 @@ public class AlbumsAndPhotosServiceMemoryImplIT {
         }
 
         @Test
-        void givenRealInputDataFromExternalClient_whenProcessAlbumsAndPhotos_thenListOfAlbumsWithPhotos() {
+        void givenRealInputDataFromExternalClientWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos() {
                 //
                 // given
                 //
