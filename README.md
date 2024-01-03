@@ -57,28 +57,14 @@ D (Dependency Inversion Principle): Este principio dicta que un sistema debe est
 
 
 # Tipos de datos
-Antes de utilizar alguna implementación de un tipo Lista, validar si implementa la interface RandomAcces. Si no se implementa, el rendimiento puede caer en picado a una complejidad cuadrática. El tipo HashMap también ofrece tiempos constantes para el acceso a los datos aunque no garantiza el orden.
-
 Voy a utilizar tipos inmutables para los objetos del dominio y para los DTO del cliente externo del que obtenemos los datos de albums y photos. Esto no cumple 100% los principios Clean Code porque tenemos un constructor con más de 4 parámetros pero en este caso prefiero saltarme esa restricción para obtener ventajas a la hora de reducir riesgos al manipular las instancias de forma concurrente. Además, sólo existe un punto localizado donde se tiene que utilizar ese constructor.
-
-## TreeSet
-Complejidad: O(log(n))
-* Añadir
-* Eliminar
-* Contiene
-
-Synchronizado: No. Utilizar: SortedSet s = Collections.synchronizedSortedSet(new TreeSet(...));
-
-Nulos: No
-
-Duplicados: No
 
 ## ArrayList
 Duplicados: Si
 
 Synchronizado: No. Utilizar Collections.synchronizedList()
 
-Complejidad: O(n)
+Complejidad: O(1) (pero O(n) cuando se tiene que redimensionar la lista)
 * Insertar elementos
 
 Complejidad: Tiempo constante
@@ -111,7 +97,24 @@ La configuración de los parámetros de acceso es (ver el fichero application.pr
 * Warnings en clases de test por estar marcadas como public. En teoría con JUnit 5 ya no sería necesario marcarlas como public si las clases de Test están en el mismo paquete que la clase a validar. Sin embargo el comando mvn test no ejecuta los tests que tienen visiblidad por defecto. Como dato para buscar la solución. Al mostrar el pom completo con los valores por defecto, veo que se está incluyendo la depedencia con junit:junit versión 4 aunque si muestro el dependency:tree no aparece por ningún lado el artefacto junit:junit.
 * Acceso a la consola web de H2 durante la ejecución de los tests
 
-# Fuentes de datos
+# Bibliografía
 
 Los principios usados y descritos han sido sacados de los libros de Robert C. Martin (https://en.wikipedia.org/wiki/Robert_C._Martin): Clean Code y Clean Architecture.
 Para tomar las decisiones de los tipos de datos, he utilizado la documentación de Java (https://docs.oracle.com/en/java/javase/17/docs/api).
+
+# Estructura del proyecto
+
+Este proyecto es un proyecto modular de tipo Maven. En la raíz del proyecto, tenemos el fichero pom.xml principal que declara los módulos de los que se compone el proyecto.
+
+A continuación, vamos a echar un vistazo a las carpetas del proyecto:
+* .vscode
+* external_clients
+* microservice
+
+## Carpeta .vscode
+El entorno de desarrollo que he utilizado es VSCode y he dejado configurado un lanzador para poder ejecutar el microservicio de forma rápida utilizando la vista de EJECUCIÓN Y DEPURACIÓN del IDE. El lanzador se llama: AlbumsAndPhotosApplication
+
+
+
+# Compilación del proyecto
+
