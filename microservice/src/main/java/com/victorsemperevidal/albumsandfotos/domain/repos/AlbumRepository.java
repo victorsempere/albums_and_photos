@@ -1,7 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.domain.repos;
 
 import java.util.Collection;
-import java.util.List;
 
 import com.victorsemperevidal.albumsandfotos.domain.objects.Album;
 import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPhotoProjection;
@@ -9,7 +8,7 @@ import com.victorsemperevidal.albumsandfotos.domain.repos.projections.AlbumAndPh
 public interface AlbumRepository {
     public void deleteAll();
 
-    public void saveAll(List<Album> entities);
+    public void saveAll(Collection<Album> entities);
 
     public Collection<Album> findAll();
 

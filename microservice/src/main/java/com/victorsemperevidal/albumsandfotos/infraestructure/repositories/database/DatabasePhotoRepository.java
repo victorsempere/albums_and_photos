@@ -41,7 +41,7 @@ public class DatabasePhotoRepository implements PhotoRepository {
     }
 
     @Override
-    public List<Photo> findAll() {
+    public Collection<Photo> findAll() {
         List<PhotoDao> photoDaos = this.springPhotoRepository.findAll();
         return photoFactory.getInstancesFromPhotoDaos(photoDaos);
     }

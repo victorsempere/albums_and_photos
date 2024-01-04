@@ -1,6 +1,7 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.factories.daos;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AlbumDaoFactory {
         return dao;
     }
 
-    public List<AlbumDao> getInstancesFromDomainAlbums(List<Album> listOfAlbums) {
+    public Collection<AlbumDao> getInstancesFromDomainAlbums(Collection<Album> listOfAlbums) {
         List<AlbumDao> daos = new ArrayList<>();
         if (listOfAlbums != null) {
             for (Album album : listOfAlbums) {

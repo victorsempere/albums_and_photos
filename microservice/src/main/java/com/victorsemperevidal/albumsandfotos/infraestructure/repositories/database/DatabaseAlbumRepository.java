@@ -1,5 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.repositories.database;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import com.victorsemperevidal.albumsandfotos.infraestructure.factories.daos.Albu
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects.AlbumFactory;
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.repos.projections.AlbumAndPhotoProjectionFactory;
 import com.victorsemperevidal.albumsandfotos.infraestructure.repositories.database.projections.AlbumAndPhotoProjectionDao;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Qualifier("databaseAlbumRepository")
@@ -41,19 +44,19 @@ public class DatabaseAlbumRepository implements AlbumRepository {
     }
 
     @Override
-    public void saveAll(List<Album> albums) {
-        List<AlbumDao> daos = albumDaoFactory.getInstancesFromDomainAlbums(albums);
+    public void saveAll(Collection<Album> albums) {
+        Collection<AlbumDao> daos = albumDaoFactory.getInstancesFromDomainAlbums(albums);
         springAlbumRepository.saveAll(daos);
     }
 
     @Override
-    public List<Album> findAll() {
-        List<AlbumDao> albumsDao = springAlbumRepository.findAll();
+    public Collection<Album> findAll() {
+        Collection<AlbumDao> albumsDao = springAlbumRepository.findAll();
         return albumFactory.getInstancesFromAlbumsDao(albumsDao);
     }
 
     @Override
-    public List<AlbumAndPhotoProjection> getAlbumsAndPhotos() {
+    public Collection<AlbumAndPhotoProjection> getAlbumsAndPhotos() {
         List<AlbumAndPhotoProjectionDao> albumsAndPhotosDaos = springAlbumRepository.getAlbumsAndPhotos();
         return albumAndPhotoProjectionFactory.getInstancesFromListOfDaos(albumsAndPhotosDaos);
     }
@@ -78,7 +81,7 @@ interface SpringAlbumRepository extends ListCrudRepository<AlbumDao, Long> {
 
     @Override
     @RestResource(exported = false)
-    @jakarta.transaction.Transactional
+    @Transactional
     <S extends AlbumDao> List<S> saveAll(Iterable<S> entities);
 
     @Override
@@ -87,6 +90,7 @@ interface SpringAlbumRepository extends ListCrudRepository<AlbumDao, Long> {
 
     @Override
     @RestResource(exported = false)
+    @Transactional
     void deleteAll();
 
 }

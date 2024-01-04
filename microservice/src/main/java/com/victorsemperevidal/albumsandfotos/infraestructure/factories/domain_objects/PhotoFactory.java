@@ -1,6 +1,7 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.factories.domain_objects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class PhotoFactory {
         return new Photo(photo.getAlbumId(), photo.getId(), photo.getTitle(), photo.getUrl(), photo.getThumbnailUrl());
     }
 
-    public List<Photo> getInstancesFromPhotosApi(
-            List<com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Photo> apiPhotos) {
-        List<Photo> photos = new ArrayList<>();
+    public Collection<Photo> getInstancesFromPhotosApi(
+            Collection<com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Photo> apiPhotos) {
+        Collection<Photo> photos = new ArrayList<>();
 
         if (apiPhotos != null) {
             for (com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Photo apiAlbum : apiPhotos) {
@@ -33,11 +34,11 @@ public class PhotoFactory {
         return photos;
     }
 
-    public List<Photo> getInstancesFromPhotoDaos(List<PhotoDao> photoDaos) {
+    public Collection<Photo> getInstancesFromPhotoDaos(Collection<PhotoDao> photoDaos) {
         if (photoDaos == null) {
             return List.of();
         }
-        List<Photo> photos = new ArrayList<>();
+        Collection<Photo> photos = new ArrayList<>();
         for (PhotoDao dao : photoDaos) {
             photos.add(getInstance(dao));
         }

@@ -1,22 +1,22 @@
 package com.victorsemperevidal.albumsandfotos.domain.objects;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 public class ExternalData implements Serializable {
-    private final List<Album> albums;
-    private final List<Photo> photos;
+    private final Collection<Album> albums;
+    private final Collection<Photo> photos;
 
-    public ExternalData(List<Album> albums, List<Photo> photos) {
+    public ExternalData(Collection<Album> albums, Collection<Photo> photos) {
         this.albums = albums;
         this.photos = photos;
     }
 
-    public List<Album> getAlbums() {
+    public Collection<Album> getAlbums() {
         return albums;
     }
 
-    public List<Photo> getPhotos() {
+    public Collection<Photo> getPhotos() {
         return photos;
     }
 

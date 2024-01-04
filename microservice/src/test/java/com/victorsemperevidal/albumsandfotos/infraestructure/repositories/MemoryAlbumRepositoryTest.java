@@ -34,11 +34,13 @@ public class MemoryAlbumRepositoryTest {
     }
 
     @Test
-    void givenNoAlbumsSavedWhenFindAllThenNullReturned() {
+    void givenDeletedAllRegistersWhenFindAllThenNullReturned() {
+        serviceToTest.deleteAll();
+
         //
         // when
         //
-        List<Album> albums = serviceToTest.findAll();
+        Collection<Album> albums = serviceToTest.findAll();
 
         //
         // then
@@ -90,7 +92,7 @@ public class MemoryAlbumRepositoryTest {
         //
         // given
         //
-        List<Album> albums = new ArrayList<>();
+        Collection<Album> albums = new ArrayList<>();
 
         //
         // when
@@ -100,7 +102,7 @@ public class MemoryAlbumRepositoryTest {
         //
         // then
         //
-        List<Album> albumsInService = serviceToTest.findAll();
+        Collection<Album> albumsInService = serviceToTest.findAll();
         assertNotSame(albums, albumsInService);
     }
 }

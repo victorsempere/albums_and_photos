@@ -30,7 +30,7 @@ public class MemoryAlbumRepository implements AlbumRepository {
     }
 
     @Override
-    public void saveAll(List<Album> listOfAlbums) {
+    public void saveAll(Collection<Album> listOfAlbums) {
         albums = listOfAlbums == null ? null : List.copyOf(listOfAlbums);
     }
 

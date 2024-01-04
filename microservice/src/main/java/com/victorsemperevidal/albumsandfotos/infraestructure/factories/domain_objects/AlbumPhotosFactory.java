@@ -31,7 +31,7 @@ public class AlbumPhotosFactory {
         }
 
         AlbumPhotos lastAlbum = null;
-        List<AlbumPhotos> listOfAlbumsWithPhotos = new ArrayList<>();
+        Collection<AlbumPhotos> listOfAlbumsWithPhotos = new ArrayList<>();
         for (AlbumAndPhotoProjection albumProjection : albumsAndPhotosProjections) {
             lastAlbum = appendProjectionToAlbumPhotos(albumProjection, listOfAlbumsWithPhotos, lastAlbum);
         }
@@ -39,7 +39,7 @@ public class AlbumPhotosFactory {
     }
 
     private AlbumPhotos appendProjectionToAlbumPhotos(AlbumAndPhotoProjection albumProjection,
-            List<AlbumPhotos> albumsPhotos, AlbumPhotos lastAlbum) {
+            Collection<AlbumPhotos> albumsPhotos, AlbumPhotos lastAlbum) {
         if (isDifferentAlbum(lastAlbum, albumProjection)) {
             lastAlbum = getInstance(albumProjection);
             albumsPhotos.add(lastAlbum);

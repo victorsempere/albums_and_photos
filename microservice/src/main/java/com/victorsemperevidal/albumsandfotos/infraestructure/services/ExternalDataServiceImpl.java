@@ -1,6 +1,6 @@
 package com.victorsemperevidal.albumsandfotos.infraestructure.services;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,8 +48,8 @@ public class ExternalDataServiceImpl implements ExternalDataService {
     @Override
     public ExternalData fetchExternalData() throws ExternalClientException {
         try {
-            List<Album> albums = albumFactory.getInstancesFromAlbumsApi(this.albumsApi.getAlbums());
-            List<Photo> photos = photoFactory.getInstancesFromPhotosApi(this.photosApi.getPhotos());
+            Collection<Album> albums = albumFactory.getInstancesFromAlbumsApi(this.albumsApi.getAlbums());
+            Collection<Photo> photos = photoFactory.getInstancesFromPhotosApi(this.photosApi.getPhotos());
 
             return externalDataFactory.getInstance(albums, photos);
 
