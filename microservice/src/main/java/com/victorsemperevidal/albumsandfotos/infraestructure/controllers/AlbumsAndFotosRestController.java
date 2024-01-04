@@ -14,13 +14,13 @@ import com.victorsemperevidal.albumsandfotos.infraestructure.dtos.AlbumPhotosDto
 import com.victorsemperevidal.albumsandfotos.infraestructure.factories.dtos.AlbumPhotosDtoFactory;
 
 @RestController
-public class AlbumsAndFotosController {
+public class AlbumsAndFotosRestController {
     private AlbumsAndPhotosService albumsAndPhotosServiceInDatabase;
     private AlbumsAndPhotosService albumsAndPhotosServiceInMemory;
     private AlbumPhotosDtoFactory albumPhotosDtoFactory;
 
     @Autowired
-    public AlbumsAndFotosController(
+    public AlbumsAndFotosRestController(
             @Qualifier("albumsServiceInDatabase") AlbumsAndPhotosService albumsAndPhotosServiceInDatabase,
             @Qualifier("albumsServiceInMemory") AlbumsAndPhotosService albumsAndPhotosServiceInMemory,
             AlbumPhotosDtoFactory albumPhotosDtoFactory) {
