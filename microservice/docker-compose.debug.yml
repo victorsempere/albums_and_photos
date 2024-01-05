@@ -14,6 +14,21 @@ services:
       - 3000:3000
       - 5005:5005
 
+  sonarqube-scanner:
+    image: sonarsource/sonar-scanner-cli
+    volumes:
+      - ./microservice:/proyecto
+    working_dir: /proyecto
+    environment:
+      - SONAR_HOST_URL=http://localhost:9000
+    command: -Dsonar.projectKey=albumsandphotos -Dsonar.sources=.
+
+  sonarqube:
+    image: sonarqube
+    ports:
+      - 9000:9000
+      - 9092:9092
+      
   prometheus:
     image: prom/prometheus
     volumes:

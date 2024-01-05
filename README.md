@@ -205,6 +205,16 @@ mvn package
 
 Al finalizar la tarea, en la carpeta target/site/jacaco encontramos una web con el resultado del análisis del código para validar la cobertura que se ha realizado con los tests. 
 
+## Análisis estático
+
+Utilizamos el plugin SonarLint de VSCode. Y para conectar contra un servidor de SonarQube, tenemos el servicio sonarqube del fichero docker-compose.debug.yml. O también podemos arrancar la imagen docker con el siguiente comando:
+
+```ps1
+docker compose  -f "microservice\docker-compose.debug.yml" up -d --build sonarqube
+```
+
+TODO: Pendiente de terminar la configuración para documentarlo
+
 ## Vulnerabilidades detectadas en dependencias por el analizador de dependencias de Red Hat
 
 * CVE-2018-10054 - Grave - Execución de código

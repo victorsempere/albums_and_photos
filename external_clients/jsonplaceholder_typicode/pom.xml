@@ -44,7 +44,7 @@
 							<invokerPackage>com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.invoker</invokerPackage>
 							<packageName>com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode</packageName>
 							<groupId>${project.groupId}</groupId>
-							<artifactId>${project.artifactId}</artifactId>
+							<artifactId>${project.artifactId}-codegen</artifactId>
 							<artifactVersion>${project.version}</artifactVersion>
 							<configOptions>
 								<sourceFolder>src/client/java/main</sourceFolder>
