@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,33 +20,22 @@ import com.victorsemperevidal.albumsandphotos.infraestructure.services.MockedDat
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class AlbumPhotosFactoryTest {
+public class AlbumPhotosFactoryTreeSetTest {
 
-    private AlbumPhotosFactory albumPhotosFactoryArrayList;
     private AlbumPhotosFactory albumPhotosFactoryTreeSet;
     private MockedDataService mockedDataService;
 
     @Autowired
-    public AlbumPhotosFactoryTest(
-            @Qualifier("albumPhotosFactoryArrayList") AlbumPhotosFactory albumPhotosFactoryArrayList,
+    public AlbumPhotosFactoryTreeSetTest(
             @Qualifier("albumPhotosFactoryTreeSet") AlbumPhotosFactory albumPhotosFactoryTreeSet,
             MockedDataService mockedDataService) {
         super();
-        this.albumPhotosFactoryArrayList = albumPhotosFactoryArrayList;
         this.albumPhotosFactoryTreeSet = albumPhotosFactoryTreeSet;
         this.mockedDataService = mockedDataService;
     }
 
     @Test
     void givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos() {
-        givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos(
-                albumPhotosFactoryArrayList);
-        givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos(
-                albumPhotosFactoryTreeSet);
-    }
-
-    private void givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos(
-            AlbumPhotosFactory serviceToTest) {
         //
         // given
         //
@@ -63,16 +53,16 @@ public class AlbumPhotosFactoryTest {
         //
         // when
         //
-        Collection<AlbumPhotos> albumPhotos = serviceToTest.getListOfAlbumPhotosFromProjections(givenProjections);
+        Collection<AlbumPhotos> albumPhotos = albumPhotosFactoryTreeSet.getListOfAlbumPhotosFromProjections(givenProjections);
 
         //
         // then
         //
-        List<AlbumPhotos> expectedResponse = null;
+        Collection<AlbumPhotos> expectedResponse = null;
         try {
             expectedResponse = mockedDataService.getMockedDataFromJsonFile(
                     "givenProjectionWithAlbumsWhenGetListOfAlbumPhotosFromProjectionsThenReturnDomainAlbumPhotos/then_listOfAlbumsWithPhotos.json",
-                    new TypeReference<List<AlbumPhotos>>() {
+                    new TypeReference<TreeSet<AlbumPhotos>>() {
 
                     });
         } catch (Exception e) {

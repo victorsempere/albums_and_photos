@@ -15,18 +15,29 @@ import com.victorsemperevidal.albumsandphotos.domain.objects.AlbumPhotos;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class AlbumsAndPhotosServiceMemoryImplIT {
-        private AlbumsAndPhotosService serviceToTest;
+public class AlbumsAndPhotosServiceTreeSetIT {
+
+        private AlbumsAndPhotosService albumsAndPhotosServiceDatabaseTreeSet;
+        private AlbumsAndPhotosService albumsAndPhotosServiceMemoryTreeSet;
 
         @Autowired
-        public AlbumsAndPhotosServiceMemoryImplIT(
-                        @Qualifier("albumsServiceInMemory") AlbumsAndPhotosService serviceToTest) {
-                super();
-                this.serviceToTest = serviceToTest;
+        public AlbumsAndPhotosServiceTreeSetIT(
+                        @Qualifier("albumsAndPhotosServiceDatabaseTreeSet") AlbumsAndPhotosService albumsAndPhotosServiceDatabaseTreeSet,
+                        @Qualifier("albumsAndPhotosServiceMemoryTreeSet") AlbumsAndPhotosService albumsAndPhotosServiceMemoryTreeSet) {
+                this.albumsAndPhotosServiceDatabaseTreeSet = albumsAndPhotosServiceDatabaseTreeSet;
+                this.albumsAndPhotosServiceMemoryTreeSet = albumsAndPhotosServiceMemoryTreeSet;
         }
 
         @Test
         void givenRealInputDataFromExternalClientWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos() {
+                givenRealInputDataFromExternalClientWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
+                                albumsAndPhotosServiceDatabaseTreeSet);
+                givenRealInputDataFromExternalClientWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
+                                albumsAndPhotosServiceMemoryTreeSet);
+        }
+
+        private void givenRealInputDataFromExternalClientWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
+                        AlbumsAndPhotosService serviceToTest) {
                 //
                 // given
                 //

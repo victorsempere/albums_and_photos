@@ -1,9 +1,7 @@
 package com.victorsemperevidal.albumsandphotos.infraestructure.factories.repos.projections.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.victorsemperevidal.albumsandphotos.domain.objects.Album;

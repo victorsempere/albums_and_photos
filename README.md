@@ -124,6 +124,10 @@ El siguiente paso siguiendo la filosofía que describe Robert C. Martin del dise
 3. El código escrito tiene que contar la tarea que realiza
 4. Minimizar el número de clases y métodos
 
+## Logs
+
+Para no complicar la lectura del código, dejo los logs en una capa a parte que se puede encontrar de momento en la capa de infraestructura, en el paquete: aspects. Únicamente he definido un aspecto que escribe el tiempo de ejecución de los métodos de la capa de aplicación y de los servicios de la capa de infraestructura.
+
 ## Compilación
 
 Para la compilación del proyecto, bastará con ejecutar desde la carpeta raíz del proyecto, en un terminal, el comando Maven:

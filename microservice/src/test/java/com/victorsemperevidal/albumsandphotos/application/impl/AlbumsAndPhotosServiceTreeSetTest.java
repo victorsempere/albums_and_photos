@@ -5,13 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.Collection;
-import java.util.List;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,27 +32,29 @@ import com.victorsemperevidal.albumsandphotos.infraestructure.services.MockedDat
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class AlbumsAndPhotosServiceDatabaseImplArrayListTest {
+public class AlbumsAndPhotosServiceTreeSetTest {
+    private Logger log = LoggerFactory.getLogger(getClass());
+
     @MockBean
-    @Qualifier("externalDataServiceArrayList")
+    @Qualifier("externalDataServiceTreeSet")
     private ExternalDataService externalDataService;
     private MockedDataService mockedDataService;
     private MockedDomainObjectExternalDataFactory mockedDomainObjectExternalDataFactory;
-    private AlbumsAndPhotosService albumsAndPhotosServiceDatabaseArrayList;
-    private AlbumsAndPhotosService albumsAndPhotosServiceMemoryArrayList;
+    private AlbumsAndPhotosService albumsAndPhotosServiceDatabaseTreeSet;
+    private AlbumsAndPhotosService albumsAndPhotosServiceMemoryTreeSet;
 
     @Autowired
-    public AlbumsAndPhotosServiceDatabaseImplArrayListTest(MockedDataService mockedDataService,
+    public AlbumsAndPhotosServiceTreeSetTest(MockedDataService mockedDataService,
             MockedDomainObjectExternalDataFactory mockedDomainObjectExternalDataFactory,
-            @Qualifier("albumsAndPhotosServiceDatabaseArrayList") AlbumsAndPhotosService albumsAndPhotosServiceDatabaseArrayList,
-            @Qualifier("albumsAndPhotosServiceMemoryArrayList") AlbumsAndPhotosService albumsAndPhotosServiceMemoryArrayList
+            @Qualifier("albumsAndPhotosServiceDatabaseTreeSet") AlbumsAndPhotosService albumsAndPhotosServiceDatabaseTreeSet,
+            @Qualifier("albumsAndPhotosServiceMemoryTreeSet") AlbumsAndPhotosService albumsAndPhotosServiceMemoryTreeSet
 
     ) {
         super();
         this.mockedDataService = mockedDataService;
         this.mockedDomainObjectExternalDataFactory = mockedDomainObjectExternalDataFactory;
-        this.albumsAndPhotosServiceDatabaseArrayList = albumsAndPhotosServiceDatabaseArrayList;
-        this.albumsAndPhotosServiceMemoryArrayList = albumsAndPhotosServiceMemoryArrayList;
+        this.albumsAndPhotosServiceDatabaseTreeSet = albumsAndPhotosServiceDatabaseTreeSet;
+        this.albumsAndPhotosServiceMemoryTreeSet = albumsAndPhotosServiceMemoryTreeSet;
     }
 
     @BeforeEach
@@ -60,9 +65,9 @@ public class AlbumsAndPhotosServiceDatabaseImplArrayListTest {
     @Test
     void givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos() {
         givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
-                albumsAndPhotosServiceDatabaseArrayList);
+                albumsAndPhotosServiceDatabaseTreeSet);
         givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
-                albumsAndPhotosServiceMemoryArrayList);
+                albumsAndPhotosServiceMemoryTreeSet);
     }
 
     private void givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
@@ -87,7 +92,7 @@ public class AlbumsAndPhotosServiceDatabaseImplArrayListTest {
         try {
             String expectedResponseFile = "givenMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos/expected_response.json";
             expectedResponse = mockedDataService.getMockedDataFromJsonFile(expectedResponseFile,
-                    new TypeReference<List<AlbumPhotos>>() {
+                    new TypeReference<TreeSet<AlbumPhotos>>() {
                     });
 
         } catch (Exception e) {
@@ -99,8 +104,8 @@ public class AlbumsAndPhotosServiceDatabaseImplArrayListTest {
 
     @Test
     void givenEmptyInputFromExternalDataWhenGetAlbumsAndPhotosThenEmptyList() {
-        givenEmptyInputFromExternalDataWhenGetAlbumsAndPhotosThenEmptyList(albumsAndPhotosServiceDatabaseArrayList);
-        givenEmptyInputFromExternalDataWhenGetAlbumsAndPhotosThenEmptyList(albumsAndPhotosServiceMemoryArrayList);
+        givenEmptyInputFromExternalDataWhenGetAlbumsAndPhotosThenEmptyList(albumsAndPhotosServiceDatabaseTreeSet);
+        givenEmptyInputFromExternalDataWhenGetAlbumsAndPhotosThenEmptyList(albumsAndPhotosServiceMemoryTreeSet);
     }
 
     private void givenEmptyInputFromExternalDataWhenGetAlbumsAndPhotosThenEmptyList(
@@ -119,15 +124,15 @@ public class AlbumsAndPhotosServiceDatabaseImplArrayListTest {
         //
         // then
         //
-        assertEquals(List.of(), albumsAndPhotos);
+        assertEquals(new TreeSet<AlbumPhotos>(), albumsAndPhotos);
     }
 
     @Test
     void givenExternalClientExceptionWhenGetAlbumsAndPhotosThenExternalClientException() {
         givenExternalClientExceptionWhenGetAlbumsAndPhotosThenExternalClientException(
-                albumsAndPhotosServiceDatabaseArrayList);
+                albumsAndPhotosServiceDatabaseTreeSet);
         givenExternalClientExceptionWhenGetAlbumsAndPhotosThenExternalClientException(
-                albumsAndPhotosServiceMemoryArrayList);
+                albumsAndPhotosServiceMemoryTreeSet);
     }
 
     private void givenExternalClientExceptionWhenGetAlbumsAndPhotosThenExternalClientException(
@@ -162,21 +167,66 @@ public class AlbumsAndPhotosServiceDatabaseImplArrayListTest {
     }
 
     @Test()
-    void givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos() {
+    void givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenLogProcessingTimeInNanos() {
+        int mockedAlbums = 200;
+        int mockedPhotosPerAlbum = 200;
+        long nanosInExecution = givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenLogProcessingTimeInNanos(
+                albumsAndPhotosServiceDatabaseTreeSet, mockedAlbums, mockedPhotosPerAlbum);
+        log.info(MessageFormat.format(
+                "Instancia: {0} -> Procesados {1} albums con {2} fotos por álbum en {3} ns. {4} ns/album y {5} ns/elemento",
+                albumsAndPhotosServiceDatabaseTreeSet.getClass().getSimpleName(), mockedAlbums,
+                mockedPhotosPerAlbum, nanosInExecution, (nanosInExecution / mockedAlbums),
+                (nanosInExecution / (mockedAlbums * mockedPhotosPerAlbum))));
+
+        mockedAlbums = 2000;
+        mockedPhotosPerAlbum = 2000;
+        nanosInExecution = givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenLogProcessingTimeInNanos(
+                albumsAndPhotosServiceMemoryTreeSet, mockedAlbums, mockedPhotosPerAlbum);
+        log.info(MessageFormat.format(
+                "Instancia: {0} -> Procesados {1} albums con {2} fotos por álbum en {3} ns. {4} ns/album y {5} ns/elemento",
+                albumsAndPhotosServiceMemoryTreeSet.getClass().getSimpleName(), mockedAlbums,
+                mockedPhotosPerAlbum, nanosInExecution, (nanosInExecution / mockedAlbums),
+                (nanosInExecution / (mockedAlbums * mockedPhotosPerAlbum))));
+
+        assertTrue(nanosInExecution > 1000000, "Ejecución de menos de 1ms. Revisar si es un error");
+    }
+
+    private long givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenLogProcessingTimeInNanos(
+            AlbumsAndPhotosService serviceToTest, int mockedAlbums,
+            int mockedPhotosPerAlbum) {
+        //
+        // given
+        //
+        ExternalData externalData = mockedDomainObjectExternalDataFactory
+                .getMockedExternalData(mockedAlbums, mockedPhotosPerAlbum);
+        Mockito.when(externalDataService.fetchExternalData()).thenReturn(externalData);
+
+        //
+        // when
+        //
+        long start = System.nanoTime();
+        serviceToTest.processAlbumsAndPhotos();
+        long end = System.nanoTime();
+
+        return end - start;
+    }
+
+    @Test()
+    void givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenProcessDataBeforeTimeout() {
         long executionTimeoutInMillis = 7000l;
         int mockedAlbums = 100;
         int mockedPhotosPerAlbum = 100;
-        givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
-                albumsAndPhotosServiceDatabaseArrayList, executionTimeoutInMillis, mockedAlbums, mockedPhotosPerAlbum);
+        givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenProcessDataBeforeTimeout(
+                albumsAndPhotosServiceDatabaseTreeSet, executionTimeoutInMillis, mockedAlbums, mockedPhotosPerAlbum);
 
-        executionTimeoutInMillis = 1000l;
+        executionTimeoutInMillis = 1600l;
         mockedAlbums = 1000;
         mockedPhotosPerAlbum = 1000;
-        givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
-                albumsAndPhotosServiceMemoryArrayList, executionTimeoutInMillis, mockedAlbums, mockedPhotosPerAlbum);
+        givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenProcessDataBeforeTimeout(
+                albumsAndPhotosServiceMemoryTreeSet, executionTimeoutInMillis, mockedAlbums, mockedPhotosPerAlbum);
     }
 
-    private void givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
+    private void givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenProcessDataBeforeTimeout(
             AlbumsAndPhotosService serviceToTest, long executionTimeoutInMillis, int mockedAlbums,
             int mockedPhotosPerAlbum) {
         //

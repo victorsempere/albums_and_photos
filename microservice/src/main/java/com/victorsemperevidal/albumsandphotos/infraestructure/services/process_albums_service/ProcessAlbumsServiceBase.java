@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandphotos.infraestructure.services;
+package com.victorsemperevidal.albumsandphotos.infraestructure.services.process_albums_service;
 
 import java.util.Collection;
 

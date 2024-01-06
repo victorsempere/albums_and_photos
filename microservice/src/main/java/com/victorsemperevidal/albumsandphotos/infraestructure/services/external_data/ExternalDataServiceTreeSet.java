@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandphotos.infraestructure.services;
+package com.victorsemperevidal.albumsandphotos.infraestructure.services.external_data;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,14 +12,14 @@ import com.victorsemperevidal.albumsandphotos.infraestructure.factories.domain_o
 import com.victorsemperevidal.albumsandphotos.infraestructure.factories.exceptions.ExternalClientExceptionFactory;
 
 @Service
-@Qualifier("externalDataServiceArrayList")
-public class ExternalDataServiceArrayList extends ExternalDataServiceBase {
+@Qualifier("externalDataServiceTreeSet")
+public class ExternalDataServiceTreeSet extends ExternalDataServiceBase {
 
     @Autowired
-    public ExternalDataServiceArrayList(AlbumsApi albumsApi, PhotosApi photosApi,
+    public ExternalDataServiceTreeSet(AlbumsApi albumsApi, PhotosApi photosApi,
             ExternalDataFactory externalDataFactory, ExternalClientExceptionFactory externalClientExceptionFactory,
-            @Qualifier("albumFactoryArrayList") AlbumFactory albumFactory,
-            @Qualifier("photoFactoryArrayList") PhotoFactory photoFactory) {
+            @Qualifier("albumFactoryTreeSet") AlbumFactory albumFactory,
+            @Qualifier("photoFactoryTreeSet") PhotoFactory photoFactory) {
         super(albumsApi, photosApi, externalDataFactory, externalClientExceptionFactory, albumFactory, photoFactory);
     }
 

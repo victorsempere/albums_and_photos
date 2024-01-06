@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandphotos.infraestructure.services;
+package com.victorsemperevidal.albumsandphotos.infraestructure.services.process_albums_service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

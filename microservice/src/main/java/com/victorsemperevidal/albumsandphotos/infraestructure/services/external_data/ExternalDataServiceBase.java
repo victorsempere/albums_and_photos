@@ -1,4 +1,4 @@
-package com.victorsemperevidal.albumsandphotos.infraestructure.services;
+package com.victorsemperevidal.albumsandphotos.infraestructure.services.external_data;
 
 import java.util.Collection;
 
