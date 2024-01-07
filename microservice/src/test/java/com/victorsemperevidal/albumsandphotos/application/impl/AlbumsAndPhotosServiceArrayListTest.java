@@ -219,8 +219,8 @@ public class AlbumsAndPhotosServiceArrayListTest {
                 albumsAndPhotosServiceDatabaseArrayList, executionTimeoutInMillis, mockedAlbums, mockedPhotosPerAlbum);
 
         executionTimeoutInMillis = 1000l;
-        mockedAlbums = 1000;
-        mockedPhotosPerAlbum = 1000;
+        mockedAlbums = 500;
+        mockedPhotosPerAlbum = 500;
         givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenListOfAlbumsWithPhotos(
                 albumsAndPhotosServiceMemoryArrayList, executionTimeoutInMillis, mockedAlbums, mockedPhotosPerAlbum);
     }

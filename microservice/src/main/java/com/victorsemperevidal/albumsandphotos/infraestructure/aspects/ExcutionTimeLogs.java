@@ -15,23 +15,34 @@ public class ExcutionTimeLogs {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Around("execution(* com.victorsemperevidal.albumsandphotos.application.*.*(..))")
+    
+    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.controllers.AlbumsAndPhotosRestController.*(..))")
+    public Object logInfraestructureLayerAlbumsAndPhotosRestController(ProceedingJoinPoint joinPoint) throws Throwable {
+        return logExecutionTime(joinPoint);
+    }
+    
+    @Around("execution(* com.victorsemperevidal.albumsandphotos.application..*(..))")
     public Object logApplicationLayer(ProceedingJoinPoint joinPoint) throws Throwable {
         return logExecutionTime(joinPoint);
     }
 
-    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.services.external_data.*.*(..))")
+    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.services.external_data..*(..))")
     public Object logInfraestructureLayerExternalDataService(ProceedingJoinPoint joinPoint) throws Throwable {
         return logExecutionTime(joinPoint);
     }
 
-    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.services.populate_service.*.*(..))")
+    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.services.populate_service..*(..))")
     public Object logInfraestructureLayerPopulateService(ProceedingJoinPoint joinPoint) throws Throwable {
         return logExecutionTime(joinPoint);
     }
 
-    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.services.process_albums_service.*.*(..))")
+    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.services.process_albums_service..*(..))")
     public Object logInfraestructureLayerProcessAlbumsService(ProceedingJoinPoint joinPoint) throws Throwable {
+        return logExecutionTime(joinPoint);
+    }
+
+    @Around("execution(* com.victorsemperevidal.albumsandphotos.infraestructure.repositories..*(..))")
+    public Object logInfraestructureLayerRepositories(ProceedingJoinPoint joinPoint) throws Throwable {
         return logExecutionTime(joinPoint);
     }
 

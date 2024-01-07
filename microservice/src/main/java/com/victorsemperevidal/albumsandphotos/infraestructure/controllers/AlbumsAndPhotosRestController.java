@@ -17,7 +17,7 @@ import com.victorsemperevidal.albumsandphotos.infraestructure.dtos.AlbumPhotosDt
 import com.victorsemperevidal.albumsandphotos.infraestructure.factories.dtos.AlbumPhotosDtoFactory;
 
 @RestController
-public class AlbumsAndFotosRestController {
+public class AlbumsAndPhotosRestController {
 
     private AlbumsAndPhotosService albumsAndPhotosServiceDatabaseArrayList;
     private AlbumsAndPhotosService albumsAndPhotosServiceDatabaseTreeSet;
@@ -26,7 +26,7 @@ public class AlbumsAndFotosRestController {
     private AlbumPhotosDtoFactory albumPhotosDtoFactory;
 
     @Autowired
-    public AlbumsAndFotosRestController(
+    public AlbumsAndPhotosRestController(
             @Qualifier("albumsAndPhotosServiceDatabaseArrayList") AlbumsAndPhotosService albumsAndPhotosServiceDatabaseArrayList,
             @Qualifier("albumsAndPhotosServiceDatabaseTreeSet") AlbumsAndPhotosService albumsAndPhotosServiceDatabaseTreeSet,
             @Qualifier("albumsAndPhotosServiceMemoryArrayList") AlbumsAndPhotosService albumsAndPhotosServiceMemoryArrayList,
