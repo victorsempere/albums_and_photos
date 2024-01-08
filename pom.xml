@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.victorsemperevidal</groupId>
 	<artifactId>albumsandfotos</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<description>Módulo del proyecto de fotografías por álbum</description>
