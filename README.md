@@ -1,7 +1,7 @@
 # Introducción
 
 Microservicio en SpringBoot con 3 endpoints:
-* albums-and-photos/db -> Elimina la información que hubiera en memoria. Realiza una carga de datos de la web. Devuelve la lista de álbumes junto con las fotos que contiene a partir de la información almacenada en base de datos.
+* albums-and-photos/db?useType=[arrayList|treeSet] -> Elimina la información que hubiera en memoria. Realiza una carga de datos de la web. Devuelve la lista de álbumes junto con las fotos que contiene a partir de la información almacenada en base de datos. El parámetro useType es optativo y nos sirve para que la petición se procese utilizando objetos tipo ArrayList o TreeSet y poder comparar el rendimiento. Por defecto si no se indica el parámetro, la ejecución se realiza utilizando el ArrayList.
 * albums-and-photos/mem -> Elimina la información que hubiera en memoria. Realiza una carga de datos de la web. Devuelve la lista de álbumes junto con las fotos que contiene directamente desde memoria.
 * db-albums -> Devuelve los datos almacenados en la tabla Album de la base de datos H2
 * db-photos -> Devuelve las fotos almacenadas en la tabla Photo de la base de datos H2
@@ -57,23 +57,18 @@ D (Dependency Inversion Principle): Este principio dicta que un sistema debe est
 # Tipos de datos
 Voy a utilizar tipos inmutables para los objetos del dominio y para los DTO del cliente externo del que obtenemos los datos de albums y photos. Esto no cumple 100% los principios Clean Code porque tenemos un constructor con más de 4 parámetros pero en este caso prefiero saltarme esa restricción para obtener ventajas a la hora de reducir riesgos al manipular las instancias de forma concurrente. Además, sólo existe un punto localizado donde se tiene que utilizar ese constructor.
 
-## ArrayList
-Duplicados: Si
+Para las estructuras de datos que he escogido para implementar el repositorio en memoria, son la Lista y el HashMap. La Lista la utilizo para los albums, ya que quiero que mantengan el orden de los albums recibidos desde el API que nos da los albumes y las fotos. Y después las photos las almaceno en un HashMap teniendo como clave el id del album. 
 
-Synchronizado: No. Utilizar Collections.synchronizedList()
+He escogido estos tipos de datos porque, según la documentación de Java, las implementaciones de la interface List, garantizan un tiempo de acceso constante siempre y cuando implementen la interface RandomAccess. La inserción también es tiempo constante salvo cuando al insertar haya que redimensionar la lista y entonces la complejidad puede llegar a ser O(n). El HashMap, lo escogí porque al no importarme el orden de los datos, la estructura nos da un tiempo constante de acceso/inserción.
 
-Complejidad: O(1) (pero O(n) cuando se tiene que redimensionar la lista)
-* Insertar elementos
+La otra opción que barajaba es utilizar un tipo Set en lugar de una Lista, ya que el tipo Set no permite duplicados (para utilizar la lista asumo que los albumes no pueden venir duplicados y que las fotos tampoco) y nos evitar tener que controlarlos si no estuviera controlado en el API. Sin embargo, dado que la complejidad del Set es de tipo O(log n), podemos ver en las trazas que se pintan en los logs, que nos interesa utilizar listas en lugar de sets para mejorar el rendimiento.
 
-Complejidad: Tiempo constante
-* size
-* isEmpty
-* get
-* set
-* iterator
-* listIterator
-
-Fuente: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html
+La fuente de datos de las complejidades, la he sacado de: 
+* https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html
+* https://docs.oracle.com/javase/1.5.0/docs/api/java/util/TreeSet.html
+* https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html
+* https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Hashtable.html
+* https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html
 
 # Bibliografía
 
@@ -111,7 +106,7 @@ El microservicio, está estructurado utilizando el principio DDD. A continuació
 
 * Aplicación: En esta capa se desarrolla la lógica de negocio a partir de los servicios y objetos del dominio. Los servicios del dominio son interfaces sin implementación. Esta la dejamos para una capa superior de forma que no acoplemos la lógica de negocio, por ejemplo, con el motor de base de datos. Esto nos permite cambiar el motor sin implicaciones graves y minimizando el esfuerzo
 
-* Infraestructura: En esta última capa es donde tenemos las implementaciones de los interfaces del dominio y donde se decide los frameworks a utilizar, el motor de base de datos, conectores que se incluyen para comunicarse con el microservicio, .... Es la capa más externa y la primera a la que llegan los microservicios externos cuando quieren comunicar con nosotros.
+* Infraestructura: En esta última capa es donde tenemos las implementaciones de los interfaces del dominio y donde se decide los frameworks a utilizar, el motor de base de datos, conectores que se incluyen para comunicarse con el microservicio, .... Es la capa más externa y la primera a la que llegan los microservicios externos cuando quieren comunicar con nosotros. Para confirmar empíricamente el rendimiento del ArrayList vs TreeSet, he definido dos implementaciones de los diferentes servicios para utilizar uno u otro tipo y es desde el controlador donde se realiza la decisión de qué implementación se utilizará en función de la petición del usuario
 
 Este principio DDD nos permite aplicar los principios SOLID que hacen de nuestro sistema, un sistema fácil de adaptar y evolucionar.
 
@@ -123,6 +118,10 @@ El siguiente paso siguiendo la filosofía que describe Robert C. Martin del dise
 2. Eliminar duplicados (utilizando herramientas como Sonar, podemos detectar los duplicados)
 3. El código escrito tiene que contar la tarea que realiza
 4. Minimizar el número de clases y métodos
+
+## Logs
+
+Para no complicar la lectura del código, dejo los logs en una capa a parte que se puede encontrar de momento en la capa de infraestructura, en el paquete: aspects. Únicamente he definido un aspecto que escribe el tiempo de ejecución de los métodos de la capa de aplicación y de los servicios de la capa de infraestructura.
 
 ## Compilación
 
@@ -204,6 +203,16 @@ mvn package
 ```
 
 Al finalizar la tarea, en la carpeta target/site/jacaco encontramos una web con el resultado del análisis del código para validar la cobertura que se ha realizado con los tests. 
+
+## Análisis estático
+
+Utilizamos el plugin SonarLint de VSCode. Y para conectar contra un servidor de SonarQube, tenemos el servicio sonarqube del fichero docker-compose.debug.yml. O también podemos arrancar la imagen docker con el siguiente comando:
+
+```ps1
+docker compose  -f "microservice\docker-compose.debug.yml" up -d --build sonarqube
+```
+
+TODO: Pendiente de terminar la configuración para documentarlo
 
 ## Vulnerabilidades detectadas en dependencias por el analizador de dependencias de Red Hat
 

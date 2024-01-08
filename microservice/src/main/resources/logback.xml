@@ -2,17 +2,21 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
+            <charset>UTF-8</charset>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <logger name="org.hibernate" level="ERROR"/>
+    <logger name="com.victorsemperevidal.albumsandphotos.application" level="DEBUG"/>
+    <logger name="com.victorsemperevidal.albumsandphotos.infraestructure" level="DEBUG"/>
 
     
     <!-- Definición de un FileAppender -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>target/logs/albums-and-photos.log</file>
         <encoder>
+            <charset>UTF-8</charset>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
