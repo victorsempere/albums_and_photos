@@ -8,14 +8,14 @@ import com.victorsemperevidal.albumsandphotos.infraestructure.daos.AlbumDao;
 
 public interface AlbumFactory {
 
-    public Album getInstance(
-            com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Album album);
+        public Album getInstance(
+                        com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Album album);
 
-    public Collection<Album> getInstancesFromAlbumsApi(
-            Collection<com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Album> apiAlbums);
+        public Collection<Album> getInstancesFromAlbumsApi(
+                        Collection<com.victorsemperevidal.albumsandphotos.externalclients.jsonplaceholdertypicode.model.Album> apiAlbums);
 
-    public Collection<Album> getInstancesFromAlbumsDao(Collection<AlbumDao> listOfAlbumsDaos);
+        public Collection<Album> getInstancesFromAlbumsDao(Collection<AlbumDao> listOfAlbumsDaos);
 
-    public Album getInstance(AlbumAndPhotoProjection albumProjection);
+        public Album getInstance(AlbumAndPhotoProjection albumProjection);
 
 }

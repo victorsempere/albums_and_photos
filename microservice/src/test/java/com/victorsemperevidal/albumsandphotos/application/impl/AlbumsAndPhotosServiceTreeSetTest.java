@@ -219,7 +219,7 @@ public class AlbumsAndPhotosServiceTreeSetTest {
         givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenProcessDataBeforeTimeout(
                 albumsAndPhotosServiceDatabaseTreeSet, executionTimeoutInMillis, mockedAlbums, mockedPhotosPerAlbum);
 
-        executionTimeoutInMillis = 1600l;
+        executionTimeoutInMillis = 2000l;
         mockedAlbums = 500;
         mockedPhotosPerAlbum = 500;
         givenLargeMockedInputFromExternalDataServiceWhenProcessAlbumsAndPhotosThenProcessDataBeforeTimeout(

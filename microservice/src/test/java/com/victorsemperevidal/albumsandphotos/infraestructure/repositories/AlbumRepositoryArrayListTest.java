@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +24,27 @@ import com.victorsemperevidal.albumsandphotos.infraestructure.services.MockedDat
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class MemoryAlbumRepositoryTreeSetTest {
+public class AlbumRepositoryArrayListTest {
 
-    private AlbumRepository memoryAlbumRepositoryTreeSet;
-    private AlbumRepository databaseAlbumRepositoryTreeSet;
+    private AlbumRepository memoryAlbumRepositoryArrayList;
+    private AlbumRepository databaseAlbumRepositoryArrayList;
     private MockedDataService mockedDataService;
 
     @Autowired
-    public MemoryAlbumRepositoryTreeSetTest(
-            @Qualifier("memoryAlbumRepositoryTreeSet") AlbumRepository memoryAlbumRepositoryTreeSet,
-            @Qualifier("databaseAlbumRepositoryTreeSet") AlbumRepository databaseAlbumRepositoryTreeSet,
+    public AlbumRepositoryArrayListTest(
+            @Qualifier("memoryAlbumRepositoryArrayList") AlbumRepository memoryAlbumRepositoryArrayList,
+            @Qualifier("databaseAlbumRepositoryArrayList") AlbumRepository databaseAlbumRepositoryArrayList,
             MockedDataService mockedDataService) {
         super();
-        this.memoryAlbumRepositoryTreeSet = memoryAlbumRepositoryTreeSet;
-        this.databaseAlbumRepositoryTreeSet = databaseAlbumRepositoryTreeSet;
+        this.memoryAlbumRepositoryArrayList = memoryAlbumRepositoryArrayList;
+        this.databaseAlbumRepositoryArrayList = databaseAlbumRepositoryArrayList;
         this.mockedDataService = mockedDataService;
     }
 
     @Test
     void givenDeletedAllRegistersWhenFindAllThenEmptyListReturned() {
-        givenDeletedAllRegistersWhenFindAllThenEmptyListReturned(memoryAlbumRepositoryTreeSet);
-        givenDeletedAllRegistersWhenFindAllThenEmptyListReturned(databaseAlbumRepositoryTreeSet);
+        givenDeletedAllRegistersWhenFindAllThenEmptyListReturned(memoryAlbumRepositoryArrayList);
+        givenDeletedAllRegistersWhenFindAllThenEmptyListReturned(databaseAlbumRepositoryArrayList);
     }
 
     private void givenDeletedAllRegistersWhenFindAllThenEmptyListReturned(AlbumRepository serviceToTest) {
@@ -68,9 +68,9 @@ public class MemoryAlbumRepositoryTreeSetTest {
     @Test
     void givenListOfAlbumsWithoutPhotosWhenGetAlbumsAndPhotosThenListOfAlbumsWithPhotosReturned() {
         givenListOfAlbumsWithoutPhotosWhenGetAlbumsAndPhotosThenListOfAlbumsWithPhotosReturned(
-                memoryAlbumRepositoryTreeSet);
+                memoryAlbumRepositoryArrayList);
         givenListOfAlbumsWithoutPhotosWhenGetAlbumsAndPhotosThenListOfAlbumsWithPhotosReturned(
-                databaseAlbumRepositoryTreeSet);
+                databaseAlbumRepositoryArrayList);
     }
 
     private void givenListOfAlbumsWithoutPhotosWhenGetAlbumsAndPhotosThenListOfAlbumsWithPhotosReturned(
@@ -85,6 +85,7 @@ public class MemoryAlbumRepositoryTreeSetTest {
                     new TypeReference<List<Album>>() {
 
                     });
+            serviceToTest.deleteAll();
             serviceToTest.saveAll(albums);
 
         } catch (Exception e) {
@@ -103,7 +104,7 @@ public class MemoryAlbumRepositoryTreeSetTest {
         try {
             expectedAlbums = mockedDataService.getMockedDataFromJsonFile(
                     "./givenListOfAlbumsWithoutPhotosWhenGetAlbumsAndPhotosThenListOfAlbumsWithPhotosReturned/expected_response.json",
-                    new TypeReference<TreeSet<AlbumAndPhotoProjection>>() {
+                    new TypeReference<List<AlbumAndPhotoProjection>>() {
 
                     });
         } catch (Exception e) {
@@ -114,8 +115,8 @@ public class MemoryAlbumRepositoryTreeSetTest {
 
     @Test
     void givenListOfAlbumsWhenSaveAllThenInstanceReferenceIsDifferent() {
-        givenListOfAlbumsWhenSaveAllThenInstanceReferenceIsDifferent(memoryAlbumRepositoryTreeSet);
-        givenListOfAlbumsWhenSaveAllThenInstanceReferenceIsDifferent(databaseAlbumRepositoryTreeSet);
+        givenListOfAlbumsWhenSaveAllThenInstanceReferenceIsDifferent(memoryAlbumRepositoryArrayList);
+        givenListOfAlbumsWhenSaveAllThenInstanceReferenceIsDifferent(databaseAlbumRepositoryArrayList);
     }
 
     private void givenListOfAlbumsWhenSaveAllThenInstanceReferenceIsDifferent(
@@ -123,7 +124,7 @@ public class MemoryAlbumRepositoryTreeSetTest {
         //
         // given
         //
-        Collection<Album> albums = new TreeSet<>();
+        Collection<Album> albums = new ArrayList<>();
 
         //
         // when

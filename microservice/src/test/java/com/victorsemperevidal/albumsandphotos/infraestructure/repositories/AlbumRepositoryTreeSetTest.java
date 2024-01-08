@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,6 +41,12 @@ public class AlbumRepositoryTreeSetTest {
         this.mockedDataService = mockedDataService;
     }
 
+    @BeforeEach
+    void cleanDatabase() {
+        memoryAlbumRepositoryTreeSet.deleteAll();
+        databaseAlbumRepositoryTreeSet.deleteAll();
+    }
+    
     @Test
     void givenDeletedAllRegistersWhenFindAllThenEmptyListReturned() {
         givenDeletedAllRegistersWhenFindAllThenEmptyListReturned(memoryAlbumRepositoryTreeSet);
@@ -51,7 +57,6 @@ public class AlbumRepositoryTreeSetTest {
         //
         // given
         //
-        serviceToTest.deleteAll();
 
         //
         // when
@@ -123,7 +128,7 @@ public class AlbumRepositoryTreeSetTest {
         //
         // given
         //
-        Collection<Album> albums = new ArrayList<>();
+        Collection<Album> albums = new TreeSet<>();
 
         //
         // when
@@ -135,5 +140,6 @@ public class AlbumRepositoryTreeSetTest {
         //
         Collection<Album> albumsInService = serviceToTest.findAll();
         assertNotSame(albums, albumsInService);
+        assertEquals(albums, albumsInService);
     }
 }
